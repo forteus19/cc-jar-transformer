@@ -1,4 +1,4 @@
-package dev.vuis.cctransformer;
+package dev.vuis.cccr.transformer;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;

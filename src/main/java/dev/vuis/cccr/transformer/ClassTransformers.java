@@ -1,4 +1,4 @@
-package dev.vuis.cctransformer;
+package dev.vuis.cccr.transformer;
 
 import java.util.Map;
 import org.objectweb.asm.Opcodes;

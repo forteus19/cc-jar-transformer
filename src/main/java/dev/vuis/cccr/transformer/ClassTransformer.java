@@ -1,4 +1,4 @@
-package dev.vuis.cctransformer;
+package dev.vuis.cccr.transformer;
 
 import org.objectweb.asm.tree.ClassNode;
 
