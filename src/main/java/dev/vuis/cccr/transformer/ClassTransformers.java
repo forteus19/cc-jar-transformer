@@ -4,6 +4,7 @@ import java.util.Map;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -11,11 +12,13 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.VarInsnNode;
 
 public final class ClassTransformers {
 	public static final Map<String, ClassTransformer> TRANSFORMERS = Map.ofEntries(
 		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
+		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager)
 	);
 
@@ -24,6 +27,14 @@ public final class ClassTransformers {
 
 	private static boolean matchMethod(MethodNode method, String name, String desc) {
 		return method.name.equals(name) && method.desc.equals(desc);
+	}
+
+	private static void resetMethodInfo(MethodNode method) {
+		method.instructions.clear();
+		method.tryCatchBlocks.clear();
+		method.localVariables.clear();
+		method.maxStack = 0;
+		method.maxLocals = 0;
 	}
 
 	private static void transformClientSessionHandler(ClassNode classNode) {
@@ -35,7 +46,7 @@ public final class ClassTransformers {
 			}
 		}
 		if (handleClientSessionLoginMethod == null) {
-			throw new IllegalStateException("handleClientSessionLogin()Z does not exist");
+			throw new IllegalStateException("ClientSessionManager#handleClientSessionLogin()Z does not exist");
 		}
 
 		{
@@ -43,7 +54,7 @@ public final class ClassTransformers {
 			insns.add(new InsnNode(Opcodes.ICONST_1));
 			insns.add(new InsnNode(Opcodes.IRETURN));
 
-			handleClientSessionLoginMethod.instructions.clear();
+			resetMethodInfo(handleClientSessionLoginMethod);
 			handleClientSessionLoginMethod.instructions.insert(insns);
 		}
 	}
@@ -52,7 +63,7 @@ public final class ClassTransformers {
 		for (AbstractInsnNode insn : method.instructions) {
 			if (insn instanceof LdcInsnNode ldcInsn) {
 				if (ldcInsn.cst.equals("eu.mcdecimation.net")) {
-					ldcInsn.cst = "127.0.0.1";
+					ldcInsn.cst = "71.76.35.25";
 				}
 			}
 		}
@@ -70,6 +81,53 @@ public final class ClassTransformers {
 		}
 	}
 
+	private static void transformNewsManager(ClassNode classNode) {
+		MethodNode getNewsAsStringListMethod = null;
+		for (MethodNode method : classNode.methods) {
+			if (matchMethod(method, "getNewsAsStringList", "(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;")) {
+				getNewsAsStringListMethod = method;
+			}
+		}
+		if (getNewsAsStringListMethod == null) {
+			throw new IllegalStateException("NewsManager#getNewsAsStringList(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List; does not exist");
+		}
+
+		{
+			InsnList insns = new InsnList();
+			LabelNode emptyListLabel = new LabelNode();
+
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
+			insns.add(new FieldInsnNode(
+				Opcodes.GETSTATIC,
+				"com/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText",
+				"NEWS",
+				"Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;"
+			));
+			insns.add(new JumpInsnNode(Opcodes.IF_ACMPNE, emptyListLabel));
+
+			insns.add(new LdcInsnNode("Welcome to CounterCraft: Condition Revived!"));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"java/util/Collections",
+				"singletonList",
+				"(Ljava/lang/Object;)Ljava/util/List;"
+			));
+			insns.add(new InsnNode(Opcodes.ARETURN));
+
+			insns.add(emptyListLabel);
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"java/util/Collections",
+				"emptyList",
+				"()Ljava/util/List;"
+			));
+			insns.add(new InsnNode(Opcodes.ARETURN));
+
+			resetMethodInfo(getNewsAsStringListMethod);
+			getNewsAsStringListMethod.instructions.insert(insns);
+		}
+	}
+
 	private static void transformGameManager(ClassNode classNode) {
 		// server manager null check, fixes crash upon leaving singleplayer world
 		MethodNode onServerStoppedMethod = null;
@@ -79,7 +137,7 @@ public final class ClassTransformers {
 			}
 		}
 		if (onServerStoppedMethod == null) {
-			throw new IllegalStateException("onServerStopped()V does not exist");
+			throw new IllegalStateException("GameManager#onServerStopped()V does not exist");
 		}
 
 		{
