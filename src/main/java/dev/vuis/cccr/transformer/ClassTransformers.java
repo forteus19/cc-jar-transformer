@@ -14,14 +14,9 @@ import org.objectweb.asm.tree.MethodNode;
 
 public final class ClassTransformers {
 	public static final Map<String, ClassTransformer> TRANSFORMERS = Map.ofEntries(
-		Map.entry(
-			"com/ferullogaming/countercraft/client/ClientManager",
-			ClassTransformers::transformClientManager
-		),
-		Map.entry(
-			"com/ferullogaming/countercraft/game/GameManager",
-			ClassTransformers::transformGameManager
-		)
+		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
+		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
+		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager)
 	);
 
 	private ClassTransformers() {
@@ -29,6 +24,28 @@ public final class ClassTransformers {
 
 	private static boolean matchMethod(MethodNode method, String name, String desc) {
 		return method.name.equals(name) && method.desc.equals(desc);
+	}
+
+	private static void transformClientSessionHandler(ClassNode classNode) {
+		// bypass session login request
+		MethodNode handleClientSessionLoginMethod = null;
+		for (MethodNode method : classNode.methods) {
+			if (matchMethod(method, "handleClientSessionLogin", "()Z")) {
+				handleClientSessionLoginMethod = method;
+			}
+		}
+		if (handleClientSessionLoginMethod == null) {
+			throw new IllegalStateException("handleClientSessionLogin()Z does not exist");
+		}
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new InsnNode(Opcodes.ICONST_1));
+			insns.add(new InsnNode(Opcodes.IRETURN));
+
+			handleClientSessionLoginMethod.instructions.clear();
+			handleClientSessionLoginMethod.instructions.insert(insns);
+		}
 	}
 
 	private static void transformCloudAddress(MethodNode method) {
