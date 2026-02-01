@@ -1,6 +1,6 @@
 package dev.vuis.cccr.transformer;
 
-import java.net.URI;
+import dev.vuis.cccr.transformer.util.Util;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -30,7 +30,7 @@ public final class Main {
 
 		@Cleanup
 		FileSystem inputFs = FileSystems.newFileSystem(
-			getJarUri(inputPath),
+			Util.getJarUri(inputPath),
 			Map.of("create", "false")
 		);
 
@@ -38,7 +38,7 @@ public final class Main {
 
 		@Cleanup
 		FileSystem outputFs = FileSystems.newFileSystem(
-			getJarUri(outputPath),
+			Util.getJarUri(outputPath),
 			Map.of("create", "true")
 		);
 
@@ -49,9 +49,5 @@ public final class Main {
 		Files.walkFileTree(inputRoot, new InputJarFileVisitor(inputRoot, outputRoot));
 
 		IO.println("Done!");
-	}
-
-	private static URI getJarUri(Path jarPath) {
-		return URI.create("jar:" + jarPath.toUri());
 	}
 }
