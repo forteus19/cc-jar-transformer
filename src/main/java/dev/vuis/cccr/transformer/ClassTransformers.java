@@ -176,16 +176,20 @@ public final class ClassTransformers {
 	}
 
 	private static void transformGameManager(ClassNode classNode) {
-		// server manager null check, fixes crash upon leaving singleplayer world
-		MethodNode onServerStoppedMethod = null;
-		for (MethodNode method : classNode.methods) {
-			if (matchMethod(method, "onServerStopped", "()V")) {
-				onServerStoppedMethod = method;
+		// incorrect tags fix
+		for (AbstractInsnNode insn : getMethod(classNode, "onServerStarted", "()V").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn && ldcInsn.cst instanceof String cst) {
+				switch (cst) {
+					case "name" -> ldcInsn.cst = "gn";
+					case "type" -> ldcInsn.cst = "gt";
+					case "map" -> ldcInsn.cst = "gm";
+					case "time" -> ldcInsn.cst = "mt";
+				}
 			}
 		}
-		if (onServerStoppedMethod == null) {
-			throw new IllegalStateException("GameManager#onServerStopped()V does not exist");
-		}
+
+		// server manager null check, fixes crash upon leaving singleplayer world
+		MethodNode onServerStoppedMethod = getMethod(classNode, "onServerStopped", "()V");
 
 		{
 			// HEAD
