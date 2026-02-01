@@ -1,6 +1,7 @@
 package dev.vuis.cccr.transformer;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -19,6 +20,7 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
+		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager)
 	);
 
@@ -29,6 +31,12 @@ public final class ClassTransformers {
 		return method.name.equals(name) && method.desc.equals(desc);
 	}
 
+	private static MethodNode getMethod(ClassNode classNode, String name, String desc) {
+		return classNode.methods.stream().filter(m -> matchMethod(m, name, desc)).findFirst().orElseThrow(
+			() -> new NoSuchElementException(String.format("Method %s%s does not exist in %s", name, desc, classNode.name))
+		);
+	}
+
 	private static void resetMethodInfo(MethodNode method) {
 		method.instructions.clear();
 		method.tryCatchBlocks.clear();
@@ -37,17 +45,19 @@ public final class ClassTransformers {
 		method.maxLocals = 0;
 	}
 
+	private static void insertTail(MethodNode method, InsnList insns) {
+		InsnList methodInsns = method.instructions;
+
+		if (methodInsns.size() == 0) {
+			methodInsns.insert(insns);
+		}
+
+		methodInsns.insertBefore(methodInsns.getLast(), insns);
+	}
+
 	private static void transformClientSessionHandler(ClassNode classNode) {
 		// bypass session login request
-		MethodNode handleClientSessionLoginMethod = null;
-		for (MethodNode method : classNode.methods) {
-			if (matchMethod(method, "handleClientSessionLogin", "()Z")) {
-				handleClientSessionLoginMethod = method;
-			}
-		}
-		if (handleClientSessionLoginMethod == null) {
-			throw new IllegalStateException("ClientSessionManager#handleClientSessionLogin()Z does not exist");
-		}
+		MethodNode handleClientSessionLoginMethod = getMethod(classNode, "handleClientSessionLogin", "()Z");
 
 		{
 			InsnList insns = new InsnList();
@@ -63,34 +73,19 @@ public final class ClassTransformers {
 		for (AbstractInsnNode insn : method.instructions) {
 			if (insn instanceof LdcInsnNode ldcInsn) {
 				if (ldcInsn.cst.equals("eu.mcdecimation.net")) {
-					ldcInsn.cst = "71.76.35.25";
+					ldcInsn.cst = Main.cloudHost;
 				}
 			}
 		}
 	}
 
 	private static void transformClientManager(ClassNode classNode) {
-		// cloud address
-		// TODO: make configurable
-		for (MethodNode method : classNode.methods) {
-			if (matchMethod(method, "<init>", "()V") ||
-				matchMethod(method, "preInit", "(Lcpw/mods/fml/common/event/FMLPreInitializationEvent;)V")
-			) {
-				transformCloudAddress(method);
-			}
-		}
+		transformCloudAddress(getMethod(classNode, "<init>", "()V"));
+		transformCloudAddress(getMethod(classNode, "preInit", "(Lcpw/mods/fml/common/event/FMLPreInitializationEvent;)V"));
 	}
 
 	private static void transformNewsManager(ClassNode classNode) {
-		MethodNode getNewsAsStringListMethod = null;
-		for (MethodNode method : classNode.methods) {
-			if (matchMethod(method, "getNewsAsStringList", "(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;")) {
-				getNewsAsStringListMethod = method;
-			}
-		}
-		if (getNewsAsStringListMethod == null) {
-			throw new IllegalStateException("NewsManager#getNewsAsStringList(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List; does not exist");
-		}
+		MethodNode getNewsAsStringListMethod = getMethod(classNode, "getNewsAsStringList", "(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;");
 
 		{
 			InsnList insns = new InsnList();
@@ -125,6 +120,16 @@ public final class ClassTransformers {
 
 			resetMethodInfo(getNewsAsStringListMethod);
 			getNewsAsStringListMethod.instructions.insert(insns);
+		}
+	}
+
+	private static void transformClientCloudManager(ClassNode classNode) {
+		for (AbstractInsnNode insn : getMethod(classNode, "<init>", "(Ljava/lang/String;)V").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn) {
+				if (ldcInsn.cst.equals(1923)) {
+					ldcInsn.cst = Main.cloudPort;
+				}
+			}
 		}
 	}
 

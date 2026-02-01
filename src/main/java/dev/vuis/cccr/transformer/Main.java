@@ -10,6 +10,9 @@ import lombok.Cleanup;
 import lombok.SneakyThrows;
 
 public final class Main {
+	static String cloudHost;
+	static int cloudPort;
+
 	private Main() {
 	}
 
@@ -17,6 +20,8 @@ public final class Main {
 	static void main(String[] args) {
 		Path inputPath = Path.of(args[0]);
 		Path outputPath = Path.of(args[1]);
+		cloudHost = args[2];
+		cloudPort = Integer.parseInt(args[3]);
 
 		IO.println("Input jar: " + inputPath);
 		IO.println("Output jar: " + outputPath);

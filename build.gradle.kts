@@ -15,6 +15,7 @@ dependencies {
 
     implementation("org.ow2.asm:asm:9.9.1")
     implementation("org.ow2.asm:asm-tree:9.9.1")
+    implementation("net.fabricmc:mapping-io:0.8.0")
 
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
