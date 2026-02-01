@@ -18,6 +18,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 public final class ClassTransformers {
 	public static final Map<String, ClassTransformer> TRANSFORMERS = Map.ofEntries(
 		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
+		Map.entry("com/ferullogaming/countercraft/CommonTickHandler", ClassTransformers::transformCommonTickHandler),
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
@@ -52,7 +53,11 @@ public final class ClassTransformers {
 			methodInsns.insert(insns);
 		}
 
-		methodInsns.insertBefore(methodInsns.getLast(), insns);
+		AbstractInsnNode lastReturn = methodInsns.getLast();
+		while (!(lastReturn.getOpcode() >= 172 && lastReturn.getOpcode() <= 177)) {
+			lastReturn = lastReturn.getPrevious();
+		}
+		methodInsns.insertBefore(lastReturn, insns);
 	}
 
 	private static void transformClientSessionHandler(ClassNode classNode) {
@@ -60,12 +65,42 @@ public final class ClassTransformers {
 		MethodNode handleClientSessionLoginMethod = getMethod(classNode, "handleClientSessionLogin", "()Z");
 
 		{
+			// REPLACE
+			// return true;
+
 			InsnList insns = new InsnList();
 			insns.add(new InsnNode(Opcodes.ICONST_1));
 			insns.add(new InsnNode(Opcodes.IRETURN));
 
 			resetMethodInfo(handleClientSessionLoginMethod);
 			handleClientSessionLoginMethod.instructions.insert(insns);
+		}
+	}
+
+	private static void transformCommonTickHandler(ClassNode classNode) {
+		MethodNode onTickEndPlayerMethod = getMethod(classNode, "onTickEndPlayer", "(Lnet/minecraft/entity/player/EntityPlayer;)V");
+
+		{
+			// TAIL
+			// player.field_71075_bZ.field_75101_c = true;
+
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+			insns.add(new FieldInsnNode(
+				Opcodes.GETFIELD,
+				"net/minecraft/entity/player/EntityPlayer",
+				"field_71075_bZ",
+				"Lnet/minecraft/entity/player/PlayerCapabilities;"
+			));
+			insns.add(new InsnNode(Opcodes.ICONST_1));
+			insns.add(new FieldInsnNode(
+				Opcodes.PUTFIELD,
+				"net/minecraft/entity/player/PlayerCapabilities",
+				"field_75101_c",
+				"Z"
+			));
+
+			insertTail(onTickEndPlayerMethod, insns);
 		}
 	}
 
@@ -88,6 +123,13 @@ public final class ClassTransformers {
 		MethodNode getNewsAsStringListMethod = getMethod(classNode, "getNewsAsStringList", "(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;");
 
 		{
+			// REPLACE
+			// if (givenEnum == GuiCCMenu.NewsText.NEWS) {
+			//     return Collections.singletonList("Welcome to CounterCraft: Condition Revived!");
+			// } else {
+			//     return Collections.emptyList();
+			// }
+
 			InsnList insns = new InsnList();
 			LabelNode emptyListLabel = new LabelNode();
 
@@ -146,6 +188,11 @@ public final class ClassTransformers {
 		}
 
 		{
+			// HEAD
+			// if (ServerManager.instance() != null) {
+			//     ...
+			// }
+
 			InsnList insns = new InsnList();
 			LabelNode continueLabel = new LabelNode();
 			insns.add(new MethodInsnNode(
