@@ -30,7 +30,7 @@ public final class MappingConvertMain {
 	}
 
 	@SneakyThrows
-	static void main(String[] args) {
+	public static void main(String[] args) {
 		Path inputJar = Path.of(args[0]);
 		Path inputPath = Path.of(args[1]);
 		Path outputPath = Path.of(args[2]);

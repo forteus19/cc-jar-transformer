@@ -33,7 +33,7 @@ public final class InputJarFileVisitor extends SimpleFileVisitor<Path> {
 
 			ClassTransformer transformer = ClassTransformers.TRANSFORMERS.get(strippedFilename);
 			if (transformer != null) {
-				IO.println("Transforming class " + strippedFilename);
+				System.out.println("Transforming class " + strippedFilename);
 
 				ClassReader reader = new ClassReader(Files.readAllBytes(file));
 				ClassNode node = new ClassNode();

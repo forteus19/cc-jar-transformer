@@ -24,6 +24,7 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
 
     runtimeOnly(files("files/minecraft-1.6.4-client-remapped.jar"))
+    runtimeOnly(project(":inject"))
 }
 
 application {

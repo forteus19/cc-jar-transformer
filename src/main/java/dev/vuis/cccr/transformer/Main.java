@@ -5,7 +5,9 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 
@@ -20,13 +22,14 @@ public final class Main {
 	static void main(String[] args) {
 		Path inputPath = Path.of(args[0]);
 		Path outputPath = Path.of(args[1]);
-		cloudHost = args[2];
-		cloudPort = Integer.parseInt(args[3]);
+		Path injectPath = Path.of(args[2]);
+		cloudHost = args[3];
+		cloudPort = Integer.parseInt(args[4]);
 
-		IO.println("Input jar: " + inputPath);
-		IO.println("Output jar: " + outputPath);
+		System.out.println("Input jar: " + inputPath);
+		System.out.println("Output jar: " + outputPath);
 
-		IO.println("Opening input jar");
+		System.out.println("Opening input jar");
 
 		@Cleanup
 		FileSystem inputFs = FileSystems.newFileSystem(
@@ -34,7 +37,10 @@ public final class Main {
 			Map.of("create", "false")
 		);
 
-		IO.println("Opening output jar");
+		System.out.println("Deleting previous output jar");
+		Files.deleteIfExists(outputPath);
+
+		System.out.println("Opening output jar");
 
 		@Cleanup
 		FileSystem outputFs = FileSystems.newFileSystem(
@@ -45,9 +51,33 @@ public final class Main {
 		Path inputRoot = inputFs.getPath("/");
 		Path outputRoot = outputFs.getPath("/");
 
-		IO.println("Starting file visitor");
+		System.out.println("Starting transformer file visitor");
 		Files.walkFileTree(inputRoot, new InputJarFileVisitor(inputRoot, outputRoot));
 
-		IO.println("Done!");
+		System.out.println("Adding inject classes");
+
+		@Cleanup
+		Stream<Path> injectStream = Files.walk(injectPath);
+		Iterator<Path> injectIterator = injectStream.iterator();
+		while (injectIterator.hasNext()) {
+			Path path = injectIterator.next();
+			Path relative = injectPath.relativize(path);
+
+			Path dest = outputRoot.getFileSystem().getPath(relative.toString());
+			dest = outputRoot.resolve(dest);
+
+			if (Files.isDirectory(path)) {
+				if (!Files.isDirectory(dest)) {
+					System.out.println("Creating dir " + dest);
+					Files.createDirectory(dest);
+				}
+				continue;
+			}
+
+			System.out.println("Copying inject class " + relative);
+			Files.copy(path, dest);
+		}
+
+		System.out.println("Done!");
 	}
 }

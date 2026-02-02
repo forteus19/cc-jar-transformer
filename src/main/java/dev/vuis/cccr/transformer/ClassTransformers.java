@@ -13,12 +13,14 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 public final class ClassTransformers {
 	public static final Map<String, ClassTransformer> TRANSFORMERS = Map.ofEntries(
 		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
 		Map.entry("com/ferullogaming/countercraft/CommonTickHandler", ClassTransformers::transformCommonTickHandler),
+		Map.entry("com/ferullogaming/countercraft/CounterCraft", ClassTransformers::transformCounterCraft),
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
@@ -101,6 +103,34 @@ public final class ClassTransformers {
 			));
 
 			insertTail(onTickEndPlayerMethod, insns);
+		}
+	}
+
+	private static void transformCounterCraft(ClassNode classNode) {
+		MethodNode serverStartMethod = getMethod(classNode, "serverStart", "(Lcpw/mods/fml/common/event/FMLServerStartingEvent;)V");
+
+		{
+			// HEAD
+			// event.registerServerCommand(new DoWeatherCycleCommand());
+
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+			insns.add(new TypeInsnNode(Opcodes.NEW, "cccr_inject/DoWeatherCycleCommand"));
+			insns.add(new InsnNode(Opcodes.DUP));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESPECIAL,
+				"cccr_inject/DoWeatherCycleCommand",
+				"<init>",
+				"()V"
+			));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKEVIRTUAL,
+				"cpw/mods/fml/common/event/FMLServerStartingEvent",
+				"registerServerCommand",
+				"(Lnet/minecraft/command/ICommand;)V"
+			));
+
+			serverStartMethod.instructions.insert(insns);
 		}
 	}
 
