@@ -107,6 +107,17 @@ public final class ClassTransformers {
 	}
 
 	private static void transformCounterCraft(ClassNode classNode) {
+//		MethodNode onPreInitMethod = getMethod(classNode, "onPreInit", "(Lcpw/mods/fml/common/event/FMLPreInitializationEvent;)V");
+//
+//		{
+//			onPreInitMethod.instructions.insert(new MethodInsnNode(
+//				Opcodes.INVOKESTATIC,
+//				"cccr_inject/CCCR",
+//				"printCloudItems",
+//				"()V"
+//			));
+//		}
+
 		MethodNode serverStartMethod = getMethod(classNode, "serverStart", "(Lcpw/mods/fml/common/event/FMLServerStartingEvent;)V");
 
 		{
@@ -203,6 +214,21 @@ public final class ClassTransformers {
 				}
 			}
 		}
+
+//		MethodNode sendPacketMethod = getMethod(classNode, "sendPacket", "(Lcom/f3rullo14/cloud/G_TcpPacket;)V");
+//
+//		{
+//			InsnList insns = new InsnList();
+//			insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
+//			insns.add(new MethodInsnNode(
+//				Opcodes.INVOKESTATIC,
+//				"cccr_inject/CCCR",
+//				"logPacket",
+//				"(Lcom/f3rullo14/cloud/G_TcpPacket;)V"
+//			));
+//
+//			sendPacketMethod.instructions.insert(insns);
+//		}
 	}
 
 	private static void transformGameManager(ClassNode classNode) {
