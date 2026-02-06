@@ -24,7 +24,8 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
-		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager)
+		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
+		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType)
 	);
 
 	private ClassTransformers() {
@@ -266,6 +267,25 @@ public final class ClassTransformers {
 			insns.add(continueLabel);
 
 			onServerStoppedMethod.instructions.insert(insns);
+		}
+	}
+
+	private static void transformGameType(ClassNode classNode) {
+		MethodNode clinitMethod = getMethod(classNode, "<clinit>", "()V");
+
+		{
+			// TAIL
+			// CCCR.setGameMaps();
+
+			InsnList insns = new InsnList();
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCR",
+				"setGameMaps",
+				"()V"
+			));
+
+			insertTail(clinitMethod, insns);
 		}
 	}
 }

@@ -1,11 +1,12 @@
 package cccr_inject;
 
 import com.f3rullo14.cloud.G_TcpPacket;
-import com.ferullogaming.countercraft.client.cloud.item.CaseContent;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemGun;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
+import com.ferullogaming.countercraft.game.references.GameType;
+import com.ferullogaming.countercraft.game.references.MapType;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
@@ -13,13 +14,33 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 public final class CCCR {
+	private static final MapType MAP_LAPUTA = new MapType(32, "Laputa", "", "F3RULLO14").setImage("laputa");
+
 	private CCCR() {
+	}
+
+	public static void setGameMaps() {
+		for (GameType gameType : GameType.gameTypeList) {
+			if (gameType == GameType.GAMEMODE_CASUAL) {
+				gameType.setMaps(
+					MapType.DUST, MAP_LAPUTA, MapType.MIRAGE, MapType.TOXIC
+				);
+			} else if (gameType == GameType.GAME_FREEFORALL) {
+				gameType.setMaps(
+					MapType.DUST, MAP_LAPUTA
+				);
+			} else if (gameType == GameType.GAMEMODE_TEAM_DEATHMATCH) {
+				gameType.setMaps(
+					MapType.DOME, MapType.DUST, MapType.MIRAGE, MapType.NUKE, MapType.RANGE, MapType.SALVAGE, MapType.TERMINAL
+				);
+			} else if (gameType != null) {
+				gameType.setMaps();
+			}
+		}
 	}
 
 	public static void printCloudItems() {
