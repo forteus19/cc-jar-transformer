@@ -24,6 +24,7 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
+		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
 		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType)
 	);
@@ -230,6 +231,15 @@ public final class ClassTransformers {
 //
 //			sendPacketMethod.instructions.insert(insns);
 //		}
+	}
+
+	private static void transformGuiCCDDMCommunity(ClassNode classNode) {
+		// discord link change
+		for (AbstractInsnNode insn : getMethod(classNode, "onResult", "(IZ)V").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn && ldcInsn.cst.equals("https://discord.gg/BoehMod")) {
+				ldcInsn.cst = "https://discord.gg/4Z6W9QV2Sp";
+			}
+		}
 	}
 
 	private static void transformGameManager(ClassNode classNode) {
