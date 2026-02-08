@@ -18,10 +18,11 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 public final class ClassTransformers {
 	public static final Map<String, ClassTransformer> TRANSFORMERS = Map.ofEntries(
-		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
+//		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
 		Map.entry("com/ferullogaming/countercraft/CommonTickHandler", ClassTransformers::transformCommonTickHandler),
 		Map.entry("com/ferullogaming/countercraft/CounterCraft", ClassTransformers::transformCounterCraft),
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
+//		Map.entry("com/ferullogaming/countercraft/client/ClientProxy", ClassTransformers::transformClientProxy),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
@@ -34,6 +35,10 @@ public final class ClassTransformers {
 
 	private static boolean matchMethod(MethodNode method, String name, String desc) {
 		return method.name.equals(name) && method.desc.equals(desc);
+	}
+
+	private static boolean matchMethod(MethodInsnNode methodInsn, String owner, String name, String desc) {
+		return methodInsn.owner.equals(owner) && methodInsn.name.equals(name) && methodInsn.desc.equals(desc);
 	}
 
 	private static MethodNode getMethod(ClassNode classNode, String name, String desc) {
@@ -62,6 +67,15 @@ public final class ClassTransformers {
 			lastReturn = lastReturn.getPrevious();
 		}
 		methodInsns.insertBefore(lastReturn, insns);
+	}
+
+	private static void redirectSystemExit(MethodNode method) {
+		for (AbstractInsnNode insn : method.instructions) {
+			if (insn.getOpcode() == Opcodes.INVOKESTATIC && insn instanceof MethodInsnNode methodInsn && matchMethod(methodInsn, "java/lang/System", "exit", "(I)V")) {
+				methodInsn.owner = "cccr_inject/CCCR";
+				methodInsn.name = "noop";
+			}
+		}
 	}
 
 	private static void transformClientSessionHandler(ClassNode classNode) {
@@ -120,6 +134,8 @@ public final class ClassTransformers {
 //			));
 //		}
 
+//		redirectSystemExit(getMethod(classNode, "postInit", "(Lcpw/mods/fml/common/event/FMLPostInitializationEvent;)V"));
+
 		MethodNode serverStartMethod = getMethod(classNode, "serverStart", "(Lcpw/mods/fml/common/event/FMLServerStartingEvent;)V");
 
 		{
@@ -160,6 +176,10 @@ public final class ClassTransformers {
 	private static void transformClientManager(ClassNode classNode) {
 		transformCloudAddress(getMethod(classNode, "<init>", "()V"));
 		transformCloudAddress(getMethod(classNode, "preInit", "(Lcpw/mods/fml/common/event/FMLPreInitializationEvent;)V"));
+	}
+
+	private static void transformClientProxy(ClassNode classNode) {
+		redirectSystemExit(getMethod(classNode, "load", "()V"));
 	}
 
 	private static void transformNewsManager(ClassNode classNode) {

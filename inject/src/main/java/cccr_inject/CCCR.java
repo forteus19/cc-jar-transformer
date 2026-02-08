@@ -3,7 +3,6 @@ package cccr_inject;
 import com.f3rullo14.cloud.G_TcpPacket;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
-import com.ferullogaming.countercraft.client.cloud.item.CloudItemGun;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
 import com.ferullogaming.countercraft.game.references.GameType;
 import com.ferullogaming.countercraft.game.references.MapType;
@@ -23,11 +22,14 @@ public final class CCCR {
 	private CCCR() {
 	}
 
+	public static void noop(int i) {
+	}
+
 	public static void setGameMaps() {
 		for (GameType gameType : GameType.gameTypeList) {
 			if (gameType == GameType.GAMEMODE_CASUAL) {
 				gameType.setMaps(
-					MapType.DUST, MAP_LAPUTA, MapType.MIRAGE, MapType.TOXIC
+					MapType.DUST, MapType.MIRAGE, MapType.TOXIC
 				);
 			} else if (gameType == GameType.GAME_FREEFORALL) {
 				gameType.setMaps(
@@ -35,7 +37,7 @@ public final class CCCR {
 				);
 			} else if (gameType == GameType.GAMEMODE_TEAM_DEATHMATCH) {
 				gameType.setMaps(
-					MapType.DOME, MapType.DUST, MapType.MIRAGE, MapType.NUKE, MapType.RANGE, MapType.SALVAGE, MapType.TERMINAL
+					MapType.DOME, MapType.DUST, MAP_LAPUTA, MapType.MIRAGE, MapType.NUKE, MapType.RANGE, MapType.SALVAGE, MapType.TERMINAL
 				);
 			} else if (gameType != null) {
 				gameType.setMaps();
@@ -80,10 +82,8 @@ public final class CCCR {
 				sb.append(itemClassName);
 				sb.append("(");
 				sb.append(item.getID());
-				if (item instanceof CloudItemGun) {
-					sb.append(", ");
-					sb.append(item.getMCItemID());
-				}
+				sb.append(", ");
+				sb.append(item.getMCItemID());
 				sb.append(", CloudItemRarity.");
 				sb.append(rarityName(item.getValue()));
 				sb.append(", \"");
