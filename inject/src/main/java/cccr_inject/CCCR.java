@@ -4,18 +4,25 @@ import com.f3rullo14.cloud.G_TcpPacket;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
+import com.ferullogaming.countercraft.game.GameManager;
+import com.ferullogaming.countercraft.game.Team;
 import com.ferullogaming.countercraft.game.references.GameType;
 import com.ferullogaming.countercraft.game.references.MapType;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@SuppressWarnings("unused")
 public final class CCCR {
 	private static final MapType MAP_LAPUTA = new MapType(32, "Laputa", "", "F3RULLO14").setImage("laputa");
 
@@ -23,6 +30,10 @@ public final class CCCR {
 	}
 
 	public static void noop(int i) {
+	}
+
+	public static Object noop(HashMap<?, ?> map, Object o) {
+		return 0;
 	}
 
 	public static void setGameMaps() {
@@ -147,5 +158,20 @@ public final class CCCR {
 
 	public static void logPacket(G_TcpPacket packet) {
 		System.out.println("PACKET: " + packet.getClass().getSimpleName());
+	}
+
+	public static void writeTeams(DataOutputStream out) throws IOException {
+		GameManager gm = GameManager.instance();
+		if (gm.matchMakingGame == null) {
+			return;
+		}
+
+		ArrayList<Team> teams = gm.matchMakingGame.getPlayerHandler().getTeams();
+		out.writeInt(teams.size());
+
+		for (Team team : teams) {
+			G_TcpPacket.writeString(out, team.teamName);
+			out.writeInt(team.getPlayers().size());
+		}
 	}
 }

@@ -25,6 +25,7 @@ public final class ClassTransformers {
 //		Map.entry("com/ferullogaming/countercraft/client/ClientProxy", ClassTransformers::transformClientProxy),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
+		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/server/PacketServerGameStatus", ClassTransformers::transformPacketServerGameStatus),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
 		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType)
@@ -251,6 +252,23 @@ public final class ClassTransformers {
 //
 //			sendPacketMethod.instructions.insert(insns);
 //		}
+	}
+
+	private static void transformPacketServerGameStatus(ClassNode classNode) {
+		MethodNode writePacketToStreamMethod = getMethod(classNode, "writePacketToStream", "(Ljava/io/DataOutputStream;)V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCR",
+				"writeTeams",
+				"(Ljava/io/DataOutputStream;)V"
+			));
+
+			insertTail(writePacketToStreamMethod, insns);
+		}
 	}
 
 	private static void transformGuiCCDDMCommunity(ClassNode classNode) {
