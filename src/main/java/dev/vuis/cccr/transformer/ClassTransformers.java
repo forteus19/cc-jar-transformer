@@ -21,14 +21,19 @@ public final class ClassTransformers {
 //		Map.entry("com/ferullogaming/countercraft/ClientSessionHandler", ClassTransformers::transformClientSessionHandler),
 		Map.entry("com/ferullogaming/countercraft/CommonTickHandler", ClassTransformers::transformCommonTickHandler),
 		Map.entry("com/ferullogaming/countercraft/CounterCraft", ClassTransformers::transformCounterCraft),
+//		Map.entry("com/ferullogaming/countercraft/References", ClassTransformers::transformReferences), // 1.5.1a
 		Map.entry("com/ferullogaming/countercraft/client/ClientManager", ClassTransformers::transformClientManager),
-//		Map.entry("com/ferullogaming/countercraft/client/ClientProxy", ClassTransformers::transformClientProxy),
+		Map.entry("com/ferullogaming/countercraft/client/ClientProxy", ClassTransformers::transformClientProxy),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
+		Map.entry("com/ferullogaming/countercraft/client/cloud/item/CloudItem", ClassTransformers::transformCloudItem),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/server/PacketServerGameStatus", ClassTransformers::transformPacketServerGameStatus),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
-		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType)
+		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType),
+		Map.entry("com/ferullogaming/countercraft/item/ItemKnife", ClassTransformers::transformItemKnife),
+		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager),
+		Map.entry("com/ferullogaming/countercraft/item/gun/ItemGun", ClassTransformers::transformItemGun)
 	);
 
 	private ClassTransformers() {
@@ -48,8 +53,10 @@ public final class ClassTransformers {
 		);
 	}
 
-	private static void resetMethodInfo(MethodNode method) {
-		method.instructions.clear();
+	private static void resetMethodInfo(MethodNode method, boolean clearInsns) {
+		if (clearInsns) {
+			method.instructions.clear();
+		}
 		method.tryCatchBlocks.clear();
 		method.localVariables.clear();
 		method.maxStack = 0;
@@ -91,7 +98,7 @@ public final class ClassTransformers {
 			insns.add(new InsnNode(Opcodes.ICONST_1));
 			insns.add(new InsnNode(Opcodes.IRETURN));
 
-			resetMethodInfo(handleClientSessionLoginMethod);
+			resetMethodInfo(handleClientSessionLoginMethod, true);
 			handleClientSessionLoginMethod.instructions.insert(insns);
 		}
 	}
@@ -135,33 +142,33 @@ public final class ClassTransformers {
 //			));
 //		}
 
-//		redirectSystemExit(getMethod(classNode, "postInit", "(Lcpw/mods/fml/common/event/FMLPostInitializationEvent;)V"));
+		redirectSystemExit(getMethod(classNode, "postInit", "(Lcpw/mods/fml/common/event/FMLPostInitializationEvent;)V"));
 
-		MethodNode serverStartMethod = getMethod(classNode, "serverStart", "(Lcpw/mods/fml/common/event/FMLServerStartingEvent;)V");
-
-		{
-			// HEAD
-			// event.registerServerCommand(new DoWeatherCycleCommand());
-
-			InsnList insns = new InsnList();
-			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
-			insns.add(new TypeInsnNode(Opcodes.NEW, "cccr_inject/DoWeatherCycleCommand"));
-			insns.add(new InsnNode(Opcodes.DUP));
-			insns.add(new MethodInsnNode(
-				Opcodes.INVOKESPECIAL,
-				"cccr_inject/DoWeatherCycleCommand",
-				"<init>",
-				"()V"
-			));
-			insns.add(new MethodInsnNode(
-				Opcodes.INVOKEVIRTUAL,
-				"cpw/mods/fml/common/event/FMLServerStartingEvent",
-				"registerServerCommand",
-				"(Lnet/minecraft/command/ICommand;)V"
-			));
-
-			serverStartMethod.instructions.insert(insns);
-		}
+//		MethodNode serverStartMethod = getMethod(classNode, "serverStart", "(Lcpw/mods/fml/common/event/FMLServerStartingEvent;)V");
+//
+//		{
+//			// HEAD
+//			// event.registerServerCommand(new DoWeatherCycleCommand());
+//
+//			InsnList insns = new InsnList();
+//			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+//			insns.add(new TypeInsnNode(Opcodes.NEW, "cccr_inject/DoWeatherCycleCommand"));
+//			insns.add(new InsnNode(Opcodes.DUP));
+//			insns.add(new MethodInsnNode(
+//				Opcodes.INVOKESPECIAL,
+//				"cccr_inject/DoWeatherCycleCommand",
+//				"<init>",
+//				"()V"
+//			));
+//			insns.add(new MethodInsnNode(
+//				Opcodes.INVOKEVIRTUAL,
+//				"cpw/mods/fml/common/event/FMLServerStartingEvent",
+//				"registerServerCommand",
+//				"(Lnet/minecraft/command/ICommand;)V"
+//			));
+//
+//			serverStartMethod.instructions.insert(insns);
+//		}
 	}
 
 	private static void transformCloudAddress(MethodNode method) {
@@ -174,13 +181,27 @@ public final class ClassTransformers {
 		}
 	}
 
+	private static void transformReferences(ClassNode classNode) {
+		transformCloudAddress(getMethod(classNode, "<clinit>", "()V"));
+	}
+
 	private static void transformClientManager(ClassNode classNode) {
 		transformCloudAddress(getMethod(classNode, "<init>", "()V"));
 		transformCloudAddress(getMethod(classNode, "preInit", "(Lcpw/mods/fml/common/event/FMLPreInitializationEvent;)V"));
 	}
 
 	private static void transformClientProxy(ClassNode classNode) {
-		redirectSystemExit(getMethod(classNode, "load", "()V"));
+		MethodNode loadMethod = getMethod(classNode, "load", "()V");
+		redirectSystemExit(loadMethod);
+
+		{
+			loadMethod.instructions.insert(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCRClientProxy",
+				"load",
+				"()V"
+			));
+		}
 	}
 
 	private static void transformNewsManager(ClassNode classNode) {
@@ -224,7 +245,7 @@ public final class ClassTransformers {
 			));
 			insns.add(new InsnNode(Opcodes.ARETURN));
 
-			resetMethodInfo(getNewsAsStringListMethod);
+			resetMethodInfo(getNewsAsStringListMethod, true);
 			getNewsAsStringListMethod.instructions.insert(insns);
 		}
 	}
@@ -252,6 +273,22 @@ public final class ClassTransformers {
 //
 //			sendPacketMethod.instructions.insert(insns);
 //		}
+	}
+
+	private static void transformCloudItem(ClassNode classNode) {
+		MethodNode clinitMethod = getMethod(classNode, "<clinit>", "()V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.insert(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCRCloudItems",
+				"noop",
+				"()V"
+			));
+
+			insertTail(clinitMethod, insns);
+		}
 	}
 
 	private static void transformPacketServerGameStatus(ClassNode classNode) {
@@ -335,5 +372,56 @@ public final class ClassTransformers {
 
 			insertTail(clinitMethod, insns);
 		}
+	}
+
+	private static void itemStackLoadFix(MethodNode method, boolean ifEq, int ordinal) {
+		int currentOrdinal = 0;
+		for (AbstractInsnNode firstInsn : method.instructions.toArray()) {
+			if (!(firstInsn.getOpcode() == Opcodes.ALOAD && firstInsn instanceof VarInsnNode varInsn && varInsn.var == 2)) {
+				continue;
+			}
+			AbstractInsnNode nextInsn = firstInsn.getNext();
+			if (!(nextInsn != null && nextInsn.getOpcode() == Opcodes.GETFIELD && nextInsn instanceof FieldInsnNode fieldInsn && fieldInsn.name.equals("field_72995_K"))) {
+				continue;
+			}
+			AbstractInsnNode ifneInsn = nextInsn.getNext();
+			if (!(ifneInsn != null && ifneInsn.getOpcode() == (ifEq ? Opcodes.IFEQ : Opcodes.IFNE))) {
+				continue;
+			}
+
+			if (currentOrdinal++ != ordinal) {
+				continue;
+			}
+
+			method.instructions.insert(firstInsn, new InsnNode(ifEq ? Opcodes.ICONST_1 : Opcodes.ICONST_0));
+			method.instructions.remove(firstInsn);
+			method.instructions.remove(fieldInsn);
+
+			return;
+		}
+	}
+
+	private static void transformItemKnife(ClassNode classNode) {
+		itemStackLoadFix(getMethod(classNode, "func_77663_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V"), false, 0);
+	}
+
+	private static void transformItemManager(ClassNode classNode) {
+		MethodNode getDataMethod = getMethod(classNode, "getData", "()V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCRItems",
+				"getData",
+				"()V"
+			));
+
+			insertTail(getDataMethod, insns);
+		}
+	}
+
+	private static void transformItemGun(ClassNode classNode) {
+		itemStackLoadFix(getMethod(classNode, "func_77663_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V"), false, 1);
 	}
 }

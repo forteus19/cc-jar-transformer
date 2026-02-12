@@ -1,6 +1,7 @@
 package cccr_inject;
 
 import com.f3rullo14.cloud.G_TcpPacket;
+import com.ferullogaming.countercraft.client.cloud.PlayerDataCloud;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
@@ -8,6 +9,7 @@ import com.ferullogaming.countercraft.game.GameManager;
 import com.ferullogaming.countercraft.game.Team;
 import com.ferullogaming.countercraft.game.references.GameType;
 import com.ferullogaming.countercraft.game.references.MapType;
+import com.ferullogaming.countercraft.player.PlayerDataHandler;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -40,7 +42,7 @@ public final class CCCR {
 		for (GameType gameType : GameType.gameTypeList) {
 			if (gameType == GameType.GAMEMODE_CASUAL) {
 				gameType.setMaps(
-					MapType.DUST, MapType.MIRAGE, MapType.TOXIC
+					MapType.DUST, MapType.HAUNTS, MapType.MIRAGE, MapType.TOXIC
 				);
 			} else if (gameType == GameType.GAME_FREEFORALL) {
 				gameType.setMaps(
@@ -172,6 +174,13 @@ public final class CCCR {
 		for (Team team : teams) {
 			G_TcpPacket.writeString(out, team.teamName);
 			out.writeInt(team.getPlayers().size());
+		}
+	}
+
+	public static void thingy(String s) {
+		PlayerDataCloud cloudData = PlayerDataHandler.getPlayerCloudData(s);
+		if (cloudData != null) {
+			System.out.println(cloudData.getItemDefault(CloudItem.P250_CITY.getMCItemID()));
 		}
 	}
 }
