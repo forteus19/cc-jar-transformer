@@ -13,7 +13,6 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 public final class ClassTransformers {
@@ -26,14 +25,13 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/client/ClientProxy", ClassTransformers::transformClientProxy),
 		Map.entry("com/ferullogaming/countercraft/client/NewsManager", ClassTransformers::transformNewsManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
+		Map.entry("com/ferullogaming/countercraft/client/cloud/command/LocalCommandHandler", ClassTransformers::transformLocalCommandHandler),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/item/CloudItem", ClassTransformers::transformCloudItem),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/server/PacketServerGameStatus", ClassTransformers::transformPacketServerGameStatus),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
 		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType),
-		Map.entry("com/ferullogaming/countercraft/item/ItemKnife", ClassTransformers::transformItemKnife),
-		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager),
-		Map.entry("com/ferullogaming/countercraft/item/gun/ItemGun", ClassTransformers::transformItemGun)
+		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager)
 	);
 
 	private ClassTransformers() {
@@ -275,12 +273,31 @@ public final class ClassTransformers {
 //		}
 	}
 
+	private static void transformLocalCommandHandler(ClassNode classNode) {
+		MethodNode handleCommandPresendMethod = getMethod(classNode, "handleCommandPresend", "(Lcom/ferullogaming/countercraft/client/cloud/command/ICommandSender;Ljava/lang/String;)V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 2));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCR",
+				"handleCommand",
+				"(Ljava/lang/String;)V"
+			));
+			insns.add(new InsnNode(Opcodes.RETURN));
+
+			resetMethodInfo(handleCommandPresendMethod, true);
+			handleCommandPresendMethod.instructions.insert(insns);
+		}
+	}
+
 	private static void transformCloudItem(ClassNode classNode) {
 		MethodNode clinitMethod = getMethod(classNode, "<clinit>", "()V");
 
 		{
 			InsnList insns = new InsnList();
-			insns.insert(new MethodInsnNode(
+			insns.add(new MethodInsnNode(
 				Opcodes.INVOKESTATIC,
 				"cccr_inject/CCCRCloudItems",
 				"noop",
@@ -374,37 +391,6 @@ public final class ClassTransformers {
 		}
 	}
 
-	private static void itemStackLoadFix(MethodNode method, boolean ifEq, int ordinal) {
-		int currentOrdinal = 0;
-		for (AbstractInsnNode firstInsn : method.instructions.toArray()) {
-			if (!(firstInsn.getOpcode() == Opcodes.ALOAD && firstInsn instanceof VarInsnNode varInsn && varInsn.var == 2)) {
-				continue;
-			}
-			AbstractInsnNode nextInsn = firstInsn.getNext();
-			if (!(nextInsn != null && nextInsn.getOpcode() == Opcodes.GETFIELD && nextInsn instanceof FieldInsnNode fieldInsn && fieldInsn.name.equals("field_72995_K"))) {
-				continue;
-			}
-			AbstractInsnNode ifneInsn = nextInsn.getNext();
-			if (!(ifneInsn != null && ifneInsn.getOpcode() == (ifEq ? Opcodes.IFEQ : Opcodes.IFNE))) {
-				continue;
-			}
-
-			if (currentOrdinal++ != ordinal) {
-				continue;
-			}
-
-			method.instructions.insert(firstInsn, new InsnNode(ifEq ? Opcodes.ICONST_1 : Opcodes.ICONST_0));
-			method.instructions.remove(firstInsn);
-			method.instructions.remove(fieldInsn);
-
-			return;
-		}
-	}
-
-	private static void transformItemKnife(ClassNode classNode) {
-		itemStackLoadFix(getMethod(classNode, "func_77663_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V"), false, 0);
-	}
-
 	private static void transformItemManager(ClassNode classNode) {
 		MethodNode getDataMethod = getMethod(classNode, "getData", "()V");
 
@@ -416,12 +402,14 @@ public final class ClassTransformers {
 				"getData",
 				"()V"
 			));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCR",
+				"printAchievements",
+				"()V"
+			));
 
 			insertTail(getDataMethod, insns);
 		}
-	}
-
-	private static void transformItemGun(ClassNode classNode) {
-		itemStackLoadFix(getMethod(classNode, "func_77663_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V"), false, 1);
 	}
 }

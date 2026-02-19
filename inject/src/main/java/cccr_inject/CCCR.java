@@ -1,15 +1,17 @@
 package cccr_inject;
 
 import com.f3rullo14.cloud.G_TcpPacket;
-import com.ferullogaming.countercraft.client.cloud.PlayerDataCloud;
+import com.ferullogaming.countercraft.client.cloud.ClientCloudManager;
+import com.ferullogaming.countercraft.client.cloud.achievements.AchievementManager;
+import com.ferullogaming.countercraft.client.cloud.achievements.CloudAchievement;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
+import com.ferullogaming.countercraft.client.cloud.packet.PacketConsoleCommand;
 import com.ferullogaming.countercraft.game.GameManager;
 import com.ferullogaming.countercraft.game.Team;
 import com.ferullogaming.countercraft.game.references.GameType;
 import com.ferullogaming.countercraft.game.references.MapType;
-import com.ferullogaming.countercraft.player.PlayerDataHandler;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -26,7 +28,7 @@ import java.util.TreeMap;
 
 @SuppressWarnings("unused")
 public final class CCCR {
-	private static final MapType MAP_LAPUTA = new MapType(32, "Laputa", "", "F3RULLO14").setImage("laputa");
+	private static final MapType MAP_LAPUTA = new MapType(24, "Laputa", "", "F3RULLO14").setImage("laputa");
 
 	private CCCR() {
 	}
@@ -46,15 +48,23 @@ public final class CCCR {
 				);
 			} else if (gameType == GameType.GAME_FREEFORALL) {
 				gameType.setMaps(
-					MapType.DUST, MAP_LAPUTA
+					MapType.DUST, MapType.HAUNTS, MAP_LAPUTA, MapType.MIRAGE, MapType.RANGE, MapType.TERMINAL
 				);
 			} else if (gameType == GameType.GAMEMODE_TEAM_DEATHMATCH) {
 				gameType.setMaps(
-					MapType.DOME, MapType.DUST, MAP_LAPUTA, MapType.MIRAGE, MapType.NUKE, MapType.RANGE, MapType.SALVAGE, MapType.TERMINAL
+					MapType.DOME, MapType.DUST, MapType.HAUNTS, MAP_LAPUTA, MapType.MIRAGE, MapType.NUKE, MapType.RANGE, MapType.SALVAGE, MapType.TERMINAL
 				);
 			} else if (gameType != null) {
 				gameType.setMaps();
 			}
+		}
+	}
+
+	private static BufferedWriter createWriter(String filename) {
+		try {
+			return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(filename), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -72,7 +82,7 @@ public final class CCCR {
 			}
 		}
 
-		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("skins.java"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)))) {
+		try (BufferedWriter writer = createWriter("skins.java")) {
 			for (Field itemField : idMap.values()) {
 				CloudItem item;
 				try {
@@ -158,6 +168,32 @@ public final class CCCR {
 		}
 	}
 
+	public static void printAchievements() {
+		try (BufferedWriter writer = createWriter("achievements.java")) {
+			for (Field field : AchievementManager.class.getFields()) {
+				if (field.getType() != CloudAchievement.class) {
+					continue;
+				}
+
+				CloudAchievement achievement = (CloudAchievement) field.get(null);
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("public static final CloudAchievement ");
+				sb.append(field.getName());
+				sb.append(" = new CloudAchievement(");
+				sb.append(achievement.getID());
+				sb.append(", \"");
+				sb.append(achievement.getName());
+				sb.append("\");");
+
+				writer.append(sb);
+				writer.newLine();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static void logPacket(G_TcpPacket packet) {
 		System.out.println("PACKET: " + packet.getClass().getSimpleName());
 	}
@@ -177,10 +213,14 @@ public final class CCCR {
 		}
 	}
 
-	public static void thingy(String s) {
-		PlayerDataCloud cloudData = PlayerDataHandler.getPlayerCloudData(s);
-		if (cloudData != null) {
-			System.out.println(cloudData.getItemDefault(CloudItem.P250_CITY.getMCItemID()));
+	public static void handleCommand(String command) {
+		String trimmed = command.trim();
+		if (trimmed.isEmpty()) {
+			return;
 		}
+		if (trimmed.charAt(0) == '/') {
+			trimmed = trimmed.substring(1);
+		}
+		ClientCloudManager.sendPacket(new PacketConsoleCommand(trimmed));
 	}
 }

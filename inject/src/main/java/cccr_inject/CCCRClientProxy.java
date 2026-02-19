@@ -10,5 +10,6 @@ public final class CCCRClientProxy {
 
 	public static void load() {
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.casePrealpha.field_77779_bT, new RenderCase("case_prealpha"));
+		MinecraftForgeClient.registerItemRenderer(CCCRItems.casePrestige.field_77779_bT, new RenderCase("case_prestige"));
 	}
 }

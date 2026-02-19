@@ -24,6 +24,8 @@ public final class CCCRCloudItems {
 	public static final CloudItem SCAR20_ELITE = new CloudItemGun(1303, 4032, "Scar20").setSuffix("Elite").setValue(CloudItemRarity.TIER1).setCollection("Prealpha").setFilterMT("sniper");
 
 	public static final CloudItem CASE_KEY_PREALPHA = new CloudItemKey(4506, 5506, "Key").setSuffix("Prealpha").setValue(CloudItemRarity.TIER1);
+	public static final CloudItem CASE_KEY_PRESTIGE = new CloudItemKey(4507, 5507, "Key").setSuffix("Prestige").setValue(CloudItemRarity.TIER1);
+
 	public static final CloudItem CASE_PREALPHA = new CloudItemCase(2006, 4106, "Prealpha", 4506)
 		.addContent(CloudItem.KNIFE_TAC_DISPLAY, 1)
 		.addContent(AK47_VULCAN, 3)
@@ -41,6 +43,8 @@ public final class CCCRCloudItems {
 		.addContent(P250_ARCTIC, 100)
 		.addContent(M1911_RAIN, 100)
 		.setSuffix("Case").setValue(CloudItemRarity.TIER1).setFilterMT("case").disableNameable().disableShowcase().disableContracts();
+	public static final CloudItem CASE_PRESTIGE = new CloudItemCase(2007, 4107, "Prestige", 4507)
+		.setSuffix("Case").setValue(CloudItemRarity.TIER6).setFilterMT("case").disableNameable().disableShowcase().disableContracts();
 
 	private CCCRCloudItems() {
 	}
