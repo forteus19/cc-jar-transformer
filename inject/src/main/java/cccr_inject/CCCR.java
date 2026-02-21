@@ -46,6 +46,10 @@ public final class CCCR {
 				gameType.setMaps(
 					MapType.DUST, MapType.HAUNTS, MapType.MIRAGE, MapType.TOXIC
 				);
+			} else if (gameType == GameType.GAMEMODE_COMPETITIVE) {
+				gameType.setMaps(
+					MapType.DUST, MapType.MIRAGE, MapType.TOXIC
+				);
 			} else if (gameType == GameType.GAME_FREEFORALL) {
 				gameType.setMaps(
 					MapType.DUST, MapType.HAUNTS, MAP_LAPUTA, MapType.MIRAGE, MapType.RANGE, MapType.TERMINAL

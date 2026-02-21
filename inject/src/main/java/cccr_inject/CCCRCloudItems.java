@@ -4,6 +4,7 @@ import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemGun;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemKey;
+import com.ferullogaming.countercraft.client.cloud.item.CloudItemKnife;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
 
 @SuppressWarnings("unused")
@@ -22,6 +23,16 @@ public final class CCCRCloudItems {
 	public static final CloudItem AWP_LIGHTNING = new CloudItemGun(1107, 4030, "AWP").setSuffix("Lightning").setValue(CloudItemRarity.TIER5).setCollection("Prealpha").setFilterMT("sniper");
 	public static final CloudItem DRAGUNOV_JUNGLE = new CloudItemGun(1203, 4031, "Dragunov").setSuffix("Jungle").setValue(CloudItemRarity.TIER2).setCollection("Prealpha").setFilterMT("sniper");
 	public static final CloudItem SCAR20_ELITE = new CloudItemGun(1303, 4032, "Scar20").setSuffix("Elite").setValue(CloudItemRarity.TIER1).setCollection("Prealpha").setFilterMT("sniper");
+
+	public static final CloudItem GUN_DISPLAY_LAPIS = new CloudItemGun(5000, 6000, "Lapis").setSuffix("Collection").setValue(CloudItemRarity.TIER3);
+	public static final CloudItem GUN_DISPLAY_GOLD = new CloudItemGun(5001, 6001, "Gold").setSuffix("Collection").setValue(CloudItemRarity.TIER4);
+	public static final CloudItem GUN_DISPLAY_DIAMOND = new CloudItemGun(5002, 6002, "Diamond").setSuffix("Collection").setValue(CloudItemRarity.TIER5);
+	public static final CloudItem GUN_DISPLAY_OBSIDIAN = new CloudItemGun(5003, 6003, "Obsidian").setSuffix("Collection").setValue(CloudItemRarity.TIER6);
+
+	public static final CloudItem KNIFE_TAC_PRESTIGE = new CloudItemKnife(1508, 4208, "Tac Knife").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");
+	public static final CloudItem KNIFE_BAY_PRESTIGE = new CloudItemKnife(1518, 4218, "Bayonet").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");
+	public static final CloudItem KNIFE_KAR_PRESTIGE = new CloudItemKnife(1528, 4228, "Karambit").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");
+	public static final CloudItem KNIFE_BFL_PRESTIGE = new CloudItemKnife(1531, 4231, "Butterfly").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");
 
 	public static final CloudItem CASE_KEY_PREALPHA = new CloudItemKey(4506, 5506, "Key").setSuffix("Prealpha").setValue(CloudItemRarity.TIER1);
 	public static final CloudItem CASE_KEY_PRESTIGE = new CloudItemKey(4507, 5507, "Key").setSuffix("Prestige").setValue(CloudItemRarity.TIER1);
@@ -44,6 +55,11 @@ public final class CCCRCloudItems {
 		.addContent(M1911_RAIN, 100)
 		.setSuffix("Case").setValue(CloudItemRarity.TIER1).setFilterMT("case").disableNameable().disableShowcase().disableContracts();
 	public static final CloudItem CASE_PRESTIGE = new CloudItemCase(2007, 4107, "Prestige", 4507)
+		.addContent(CloudItem.KNIFE_TAC_DISPLAY, 0)
+		.addContent(GUN_DISPLAY_OBSIDIAN, 0)
+		.addContent(GUN_DISPLAY_DIAMOND, 0)
+		.addContent(GUN_DISPLAY_GOLD, 0)
+		.addContent(GUN_DISPLAY_LAPIS, 0)
 		.setSuffix("Case").setValue(CloudItemRarity.TIER6).setFilterMT("case").disableNameable().disableShowcase().disableContracts();
 
 	private CCCRCloudItems() {
