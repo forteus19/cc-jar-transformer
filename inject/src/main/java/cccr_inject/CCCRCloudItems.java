@@ -24,10 +24,14 @@ public final class CCCRCloudItems {
 	public static final CloudItem DRAGUNOV_JUNGLE = new CloudItemGun(1203, 4031, "Dragunov").setSuffix("Jungle").setValue(CloudItemRarity.TIER2).setCollection("Prealpha").setFilterMT("sniper");
 	public static final CloudItem SCAR20_ELITE = new CloudItemGun(1303, 4032, "Scar20").setSuffix("Elite").setValue(CloudItemRarity.TIER1).setCollection("Prealpha").setFilterMT("sniper");
 
-	public static final CloudItem GUN_DISPLAY_LAPIS = new CloudItemGun(5000, 6000, "Lapis").setSuffix("Collection").setValue(CloudItemRarity.TIER3);
-	public static final CloudItem GUN_DISPLAY_GOLD = new CloudItemGun(5001, 6001, "Gold").setSuffix("Collection").setValue(CloudItemRarity.TIER4);
-	public static final CloudItem GUN_DISPLAY_DIAMOND = new CloudItemGun(5002, 6002, "Diamond").setSuffix("Collection").setValue(CloudItemRarity.TIER5);
-	public static final CloudItem GUN_DISPLAY_OBSIDIAN = new CloudItemGun(5003, 6003, "Obsidian").setSuffix("Collection").setValue(CloudItemRarity.TIER6);
+	public static final CloudItem GUN_DISPLAY_LAPIS = new CloudItemGun(5000, 6000, "Lapis").setSuffix("Collection").setValue(CloudItemRarity.TIER3)
+		.disableTrading().disableSelling().disableShowcase().disableNameable().disableContracts();
+	public static final CloudItem GUN_DISPLAY_GOLD = new CloudItemGun(5001, 6001, "Gold").setSuffix("Collection").setValue(CloudItemRarity.TIER4)
+		.disableTrading().disableSelling().disableShowcase().disableNameable().disableContracts();
+	public static final CloudItem GUN_DISPLAY_DIAMOND = new CloudItemGun(5002, 6002, "Diamond").setSuffix("Collection").setValue(CloudItemRarity.TIER5)
+		.disableTrading().disableSelling().disableShowcase().disableNameable().disableContracts();
+	public static final CloudItem GUN_DISPLAY_OBSIDIAN = new CloudItemGun(5003, 6003, "Obsidian").setSuffix("Collection").setValue(CloudItemRarity.TIER6)
+		.disableTrading().disableSelling().disableShowcase().disableNameable().disableContracts();
 
 	public static final CloudItem KNIFE_TAC_PRESTIGE = new CloudItemKnife(1508, 4208, "Tac Knife").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");
 	public static final CloudItem KNIFE_BAY_PRESTIGE = new CloudItemKnife(1518, 4218, "Bayonet").setSuffix("Prestige").setValue(CloudItemRarity.TIER6).setFilterMT("knife");

@@ -27,12 +27,16 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/client/cloud/ClientCloudManager", ClassTransformers::transformClientCloudManager),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/command/LocalCommandHandler", ClassTransformers::transformLocalCommandHandler),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/item/CloudItem", ClassTransformers::transformCloudItem),
+		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/PacketInventoryContract", ClassTransformers::transformPacketInventoryContract),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/server/PacketServerGameStatus", ClassTransformers::transformPacketServerGameStatus),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
 		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType),
-		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager)
+		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager),
+		Map.entry("com/ferullogaming/countercraft/server/ServerCloudManager", ClassTransformers::transformServerCloudManager)
 	);
+
+	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC3";
 
 	private ClassTransformers() {
 	}
@@ -257,6 +261,14 @@ public final class ClassTransformers {
 			}
 		}
 
+		for (AbstractInsnNode insn : getMethod(classNode, "getConnectionVersion", "()Ljava/lang/String;").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn) {
+				if (ldcInsn.cst.equals("1.7.4a")) {
+					ldcInsn.cst = CONNECTION_VERSION;
+				}
+			}
+		}
+
 //		MethodNode sendPacketMethod = getMethod(classNode, "sendPacket", "(Lcom/f3rullo14/cloud/G_TcpPacket;)V");
 //
 //		{
@@ -305,6 +317,36 @@ public final class ClassTransformers {
 			));
 
 			insertTail(clinitMethod, insns);
+		}
+	}
+
+	private static void transformPacketInventoryContract(ClassNode classNode) {
+		MethodNode writePacketToStreamMethod = getMethod(classNode, "writePacketToStream", "(Ljava/io/DataOutputStream;)V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
+			insns.add(new FieldInsnNode(
+				Opcodes.GETFIELD,
+				"com/ferullogaming/countercraft/client/cloud/packet/PacketInventoryContract",
+				"uuids",
+				"Ljava/util/ArrayList;"
+			));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKEVIRTUAL,
+				"java/util/ArrayList",
+				"size",
+				"()I"
+			));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKEVIRTUAL,
+				"java/io/DataOutputStream",
+				"writeInt",
+				"(I)V"
+			));
+
+			writePacketToStreamMethod.instructions.insert(insns);
 		}
 	}
 
@@ -410,6 +452,16 @@ public final class ClassTransformers {
 			));
 
 			insertTail(getDataMethod, insns);
+		}
+	}
+
+	private static void transformServerCloudManager(ClassNode classNode) {
+		for (AbstractInsnNode insn : getMethod(classNode, "getConnectionVersion", "()Ljava/lang/String;").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn) {
+				if (ldcInsn.cst.equals("1.7.4a")) {
+					ldcInsn.cst = CONNECTION_VERSION;
+				}
+			}
 		}
 	}
 }
