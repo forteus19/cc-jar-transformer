@@ -5,6 +5,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -75,7 +76,7 @@ public final class Main {
 			}
 
 			System.out.println("Copying inject file " + relative);
-			Files.copy(path, dest);
+			Files.copy(path, dest, StandardCopyOption.REPLACE_EXISTING);
 		}
 
 		System.out.println("Done!");

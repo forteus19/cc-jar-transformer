@@ -18,8 +18,10 @@ public final class CCCRItems {
 	public static Item knifeButterflyPrestige;
 	public static Item casePrealpha;
 	public static Item casePrestige;
+	public static Item caseBlaze;
 	public static Item keyCasePrealpha;
 	public static Item keyCasePrestige;
+	public static Item keyCaseBlaze;
 	public static Item gunDisplayLapis;
 	public static Item gunDisplayGold;
 	public static Item gunDisplayDiamond;
@@ -35,8 +37,10 @@ public final class CCCRItems {
 		knifeButterflyPrestige = new ItemKnife(4231).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Butterfly Prestige").setCCItemTextureName("blueknife");
 		casePrealpha = new ItemCase(4106).setCCItemDisplayName("Prealpha Case").setCCItemTextureName("caseprealpha");
 		casePrestige = new ItemCase(4107).setCCItemDisplayName("Prestige Case").setCCItemTextureName("caseprestige");
+		caseBlaze = new ItemCase(4108).setCCItemDisplayName("Blaze Case").setCCItemTextureName("caseblaze");
 		keyCasePrealpha = new ItemKey(5506).setCCItemDisplayName("Key").setCCItemTextureName("casekey_prealpha");
 		keyCasePrestige = new ItemKey(5507).setCCItemDisplayName("Key").setCCItemTextureName("casekey_prestige");
+		keyCaseBlaze = new ItemKey(5508).setCCItemDisplayName("Key").setCCItemTextureName("casekey_blaze");
 		gunDisplayLapis = new ItemGun(6000, 0, 0, 0, 0, 0).setCCItemDisplayName("Gun Display Lapis").setCCItemTextureName("gundisplay_lapis");
 		gunDisplayGold = new ItemGun(6001, 0, 0, 0, 0, 0).setCCItemDisplayName("Gun Display Gold").setCCItemTextureName("gundisplay_gold");
 		gunDisplayDiamond = new ItemGun(6002, 0, 0, 0, 0, 0).setCCItemDisplayName("Gun Display Diamond").setCCItemTextureName("gundisplay_diamond");

@@ -22,6 +22,7 @@ public final class CCCRClientProxy {
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.knifeButterflyPrestige.field_77779_bT, new RenderKnifeButterfly("butterfly_prestige"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.casePrealpha.field_77779_bT, new RenderCase("case_prealpha"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.casePrestige.field_77779_bT, new RenderCase("case_prestige"));
+		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseBlaze.field_77779_bT, new RenderCase("case_blaze"));
 		ModelAK47 gunDisplayModel = new ModelAK47();
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.gunDisplayLapis.field_77779_bT, new RenderGunDisplay(gunDisplayModel, "gundisplaymodel_lapis"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.gunDisplayGold.field_77779_bT, new RenderGunDisplay(gunDisplayModel, "gundisplaymodel_gold"));
