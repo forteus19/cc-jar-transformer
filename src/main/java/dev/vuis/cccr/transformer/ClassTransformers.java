@@ -36,7 +36,7 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/server/ServerCloudManager", ClassTransformers::transformServerCloudManager)
 	);
 
-	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC3";
+	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC4";
 
 	private ClassTransformers() {
 	}
@@ -312,7 +312,7 @@ public final class ClassTransformers {
 			insns.add(new MethodInsnNode(
 				Opcodes.INVOKESTATIC,
 				"cccr_inject/CCCRCloudItems",
-				"noop",
+				"init",
 				"()V"
 			));
 

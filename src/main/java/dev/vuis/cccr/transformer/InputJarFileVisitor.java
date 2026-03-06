@@ -8,6 +8,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassReader;
@@ -16,6 +17,10 @@ import org.objectweb.asm.tree.ClassNode;
 
 @RequiredArgsConstructor
 public final class InputJarFileVisitor extends SimpleFileVisitor<Path> {
+	private static final Set<String> EXCLUDED_PATHS = Set.of(
+		"assets/minecraft/textures/blocks"
+	);
+
 	private final Path inputRoot, outputRoot;
 
 	@Override
@@ -23,11 +28,11 @@ public final class InputJarFileVisitor extends SimpleFileVisitor<Path> {
 		Path relative = inputRoot.relativize(file);
 		Path dest = outputRoot.resolve(relative);
 
-		if (dest.getParent() != null) {
-			Files.createDirectories(dest.getParent());
-		}
-
 		if (file.getFileName().toString().endsWith(".class")) {
+			if (dest.getParent() != null) {
+				Files.createDirectories(dest.getParent());
+			}
+
 			String relativeFilename = relative.toString();
 			String strippedFilename = relativeFilename.substring(0, relativeFilename.lastIndexOf('.'));
 
@@ -48,8 +53,16 @@ public final class InputJarFileVisitor extends SimpleFileVisitor<Path> {
 			} else {
 				Files.copy(file, dest, StandardCopyOption.REPLACE_EXISTING);
 			}
-		} else {
-			Files.copy(file, dest, StandardCopyOption.REPLACE_EXISTING);
+		} else if (!Files.exists(dest)) {
+			for (String excluded : EXCLUDED_PATHS) {
+				if (relative.startsWith(excluded)) {
+					return FileVisitResult.CONTINUE;
+				}
+			}
+			if (dest.getParent() != null) {
+				Files.createDirectories(dest.getParent());
+			}
+			Files.copy(file, dest);
 		}
 
 		return FileVisitResult.CONTINUE;

@@ -52,9 +52,6 @@ public final class Main {
 		Path inputRoot = inputFs.getPath("/");
 		Path outputRoot = outputFs.getPath("/");
 
-		System.out.println("Starting transformer file visitor");
-		Files.walkFileTree(inputRoot, new InputJarFileVisitor(inputRoot, outputRoot));
-
 		System.out.println("Adding inject files");
 
 		@Cleanup
@@ -78,6 +75,9 @@ public final class Main {
 			System.out.println("Copying inject file " + relative);
 			Files.copy(path, dest, StandardCopyOption.REPLACE_EXISTING);
 		}
+
+		System.out.println("Starting transformer file visitor");
+		Files.walkFileTree(inputRoot, new InputJarFileVisitor(inputRoot, outputRoot));
 
 		System.out.println("Done!");
 	}
