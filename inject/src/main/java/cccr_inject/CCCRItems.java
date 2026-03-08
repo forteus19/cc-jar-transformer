@@ -126,14 +126,14 @@ public final class CCCRItems {
 		knifeButterflyLore = new ItemKnife(4235).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Butterfly Prestige").setCCItemTextureName("blueknife");
 		knifeButterflyGamma = new ItemKnife(4236).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Butterfly Prestige").setCCItemTextureName("blueknife");
 		knifeButterflyPrestige = new ItemKnife(4238).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Butterfly Prestige").setCCItemTextureName("blueknife");
-		knifeButterflyAutotronic = new ItemKnife(4239).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyBlackout = new ItemKnife(4270).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyRuby = new ItemKnife(4271).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyFade = new ItemKnife(4272).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyRust = new ItemKnife(4273).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyEtherfire = new ItemKnife(4274).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyWatermelon = new ItemKnife(4275).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
-		knifeButterflyInverted = new ItemKnife(4276).setAnimationInspecting(KnifeAnimationInspectKarambit.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyAutotronic = new ItemKnife(4239).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyBlackout = new ItemKnife(4270).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyRuby = new ItemKnife(4271).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyFade = new ItemKnife(4272).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyRust = new ItemKnife(4273).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyEtherfire = new ItemKnife(4274).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyWatermelon = new ItemKnife(4275).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
+		knifeButterflyInverted = new ItemKnife(4276).setAnimationInspecting(KnifeAnimationInspectButterfly.class).setCCItemDisplayName("Prestige Tac Knife").setCCItemTextureName("blueknife");
 
 		caseChronical = new ItemCase(4106).setCCItemDisplayName("Prestige Case").setCCItemTextureName("caseprestige");
 		caseMythic = new ItemCase(4107).setCCItemDisplayName("Prestige Case").setCCItemTextureName("caseprestige");
@@ -153,7 +153,7 @@ public final class CCCRItems {
 		keyCaseElemental = new ItemKey(5510).setCCItemDisplayName("Key").setCCItemTextureName("casekey_elemental");
 		keyCaseRevolution = new ItemKey(5511).setCCItemDisplayName("Key").setCCItemTextureName("casekey_revolution");
 		keyCaseVectorized = new ItemKey(5512).setCCItemDisplayName("Key").setCCItemTextureName("casekey_vectorized");
-		keyCaseBiomechanic = new ItemKey(5513).setCCItemDisplayName("Key").setCCItemTextureName("casekey_biomechanic");
+		keyCaseBiomechanic = new ItemKey(5513).setCCItemDisplayName("Key").setCCItemTextureName("casekey_biomechanical");
 		keyCasePhantasmagoria = new ItemKey(5514).setCCItemDisplayName("Key").setCCItemTextureName("casekey_phantasmagoria");
 		keyCaseSepulcher = new ItemKey(5515).setCCItemDisplayName("Key").setCCItemTextureName("casekey_sepulcher");
 

@@ -8,7 +8,10 @@ import com.ferullogaming.countercraft.client.cloud.item.CloudItem;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemCase;
 import com.ferullogaming.countercraft.client.cloud.item.CloudItemRarity;
 import com.ferullogaming.countercraft.client.cloud.packet.PacketConsoleCommand;
+import com.ferullogaming.countercraft.client.gui.GuiCCMenu;
+import com.ferullogaming.countercraft.game.GameHelper;
 import com.ferullogaming.countercraft.game.GameManager;
+import com.ferullogaming.countercraft.game.IGame;
 import com.ferullogaming.countercraft.game.Team;
 import com.ferullogaming.countercraft.game.references.GameType;
 import com.ferullogaming.countercraft.game.references.MapType;
@@ -22,7 +25,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -61,6 +67,29 @@ public final class CCCR {
 			} else if (gameType != null) {
 				gameType.setMaps();
 			}
+		}
+	}
+
+	public static List<String> getNews(GuiCCMenu.NewsText type) {
+		switch (type) {
+			case NEWS:
+				return Arrays.asList(
+					"Welcome to CounterCraft: Condition Revived!",
+					"",
+					"Discord: https://discord.gg/4Z6W9QV2Sp"
+				);
+			case UPDATES:
+				return Arrays.asList(
+					"1.0.0-ALPHA-RC7 Changelog:",
+					" - Added updates text",
+					" - Readded classic AWP Dragon texture",
+					" - Fixed incorrect case banner text",
+					" - Fixed money in casual and competitive going below $0",
+					" - Fixed Dragunov Elite and CZ75 Ghost having the wrong texture",
+					" - Fixed M4A4 Nerfed being iron instead of lapis"
+				);
+			default:
+				return Collections.emptyList();
 		}
 	}
 
@@ -226,5 +255,9 @@ public final class CCCR {
 			trimmed = trimmed.substring(1);
 		}
 		ClientCloudManager.sendPacket(new PacketConsoleCommand(trimmed));
+	}
+
+	public static void removePlayerEconomy(IGame game, String player, int amount) {
+		GameHelper.setPlayerGameValue(game, player, "economy", Math.max(0, GameHelper.getPlayerGameValue(game, player, "economy") - amount));
 	}
 }

@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 public final class ClassTransformers {
@@ -30,13 +31,16 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/PacketInventoryContract", ClassTransformers::transformPacketInventoryContract),
 		Map.entry("com/ferullogaming/countercraft/client/cloud/packet/server/PacketServerGameStatus", ClassTransformers::transformPacketServerGameStatus),
 		Map.entry("com/ferullogaming/countercraft/client/gui/GuiCCDDMCommunity", ClassTransformers::transformGuiCCDDMCommunity),
+		Map.entry("com/ferullogaming/countercraft/client/gui/api/container/GuiFGContainerBanner", ClassTransformers::transformGuiFGContainerBanner),
 		Map.entry("com/ferullogaming/countercraft/game/GameManager", ClassTransformers::transformGameManager),
+		Map.entry("com/ferullogaming/countercraft/game/cas/CasualBombDefusal", ClassTransformers::implTransformIGameComponentEconomy),
+		Map.entry("com/ferullogaming/countercraft/game/cbd/CompetitiveBombDefusal", ClassTransformers::implTransformIGameComponentEconomy),
 		Map.entry("com/ferullogaming/countercraft/game/references/GameType", ClassTransformers::transformGameType),
 		Map.entry("com/ferullogaming/countercraft/item/ItemManager", ClassTransformers::transformItemManager),
 		Map.entry("com/ferullogaming/countercraft/server/ServerCloudManager", ClassTransformers::transformServerCloudManager)
 	);
 
-	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC4";
+	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC7";
 
 	private ClassTransformers() {
 	}
@@ -210,40 +214,13 @@ public final class ClassTransformers {
 		MethodNode getNewsAsStringListMethod = getMethod(classNode, "getNewsAsStringList", "(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;");
 
 		{
-			// REPLACE
-			// if (givenEnum == GuiCCMenu.NewsText.NEWS) {
-			//     return Collections.singletonList("Welcome to CounterCraft: Condition Revived!");
-			// } else {
-			//     return Collections.emptyList();
-			// }
-
 			InsnList insns = new InsnList();
-			LabelNode emptyListLabel = new LabelNode();
-
 			insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
-			insns.add(new FieldInsnNode(
-				Opcodes.GETSTATIC,
-				"com/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText",
-				"NEWS",
-				"Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;"
-			));
-			insns.add(new JumpInsnNode(Opcodes.IF_ACMPNE, emptyListLabel));
-
-			insns.add(new LdcInsnNode("Welcome to CounterCraft: Condition Revived!"));
 			insns.add(new MethodInsnNode(
 				Opcodes.INVOKESTATIC,
-				"java/util/Collections",
-				"singletonList",
-				"(Ljava/lang/Object;)Ljava/util/List;"
-			));
-			insns.add(new InsnNode(Opcodes.ARETURN));
-
-			insns.add(emptyListLabel);
-			insns.add(new MethodInsnNode(
-				Opcodes.INVOKESTATIC,
-				"java/util/Collections",
-				"emptyList",
-				"()Ljava/util/List;"
+				"cccr_inject/CCCR",
+				"getNews",
+				"(Lcom/ferullogaming/countercraft/client/gui/GuiCCMenu$NewsText;)Ljava/util/List;"
 			));
 			insns.add(new InsnNode(Opcodes.ARETURN));
 
@@ -376,6 +353,34 @@ public final class ClassTransformers {
 		}
 	}
 
+	private static void transformGuiFGContainerBanner(ClassNode classNode) {
+		for (AbstractInsnNode insn : getMethod(classNode, "addButtons", "(Ljava/util/ArrayList;)V").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn && ldcInsn.cst.equals("message.banner.market.view")) {
+				ldcInsn.cst = "message.banner.market.purchase.now";
+				break;
+			}
+		}
+
+		for (AbstractInsnNode insn : getMethod(classNode, "actionPerformed", "(Lnet/minecraft/client/gui/GuiButton;)V").instructions) {
+			if (insn instanceof TypeInsnNode typeInsn && typeInsn.desc.equals("com/ferullogaming/countercraft/client/gui/market/GuiCCMenuMarketBrowse")) {
+				typeInsn.desc = "com/ferullogaming/countercraft/client/gui/store/GuiCCMenuStore";
+			}
+			if (insn instanceof MethodInsnNode methodInsn && matchMethod(methodInsn, "com/ferullogaming/countercraft/client/gui/market/GuiCCMenuMarketBrowse", "<init>", "()V")) {
+				methodInsn.owner = "com/ferullogaming/countercraft/client/gui/store/GuiCCMenuStore";
+			}
+		}
+
+		for (AbstractInsnNode insn : getMethod(classNode, "drawScreen", "(IIF)V").instructions) {
+			if (insn instanceof LdcInsnNode ldcInsn && ldcInsn.cst instanceof String cst) {
+				ldcInsn.cst = switch (cst) {
+					case "Exo Case!" -> "Case Rework!";
+					case "New community-made weapons skins and wraps are now available!" -> "All new cases and community skins are now available!";
+					default -> ldcInsn.cst;
+				};
+			}
+		}
+	}
+
 	private static void transformGameManager(ClassNode classNode) {
 		// incorrect tags fix
 		for (AbstractInsnNode insn : getMethod(classNode, "onServerStarted", "()V").instructions) {
@@ -411,6 +416,27 @@ public final class ClassTransformers {
 			insns.add(continueLabel);
 
 			onServerStoppedMethod.instructions.insert(insns);
+		}
+	}
+
+	private static void implTransformIGameComponentEconomy(ClassNode classNode) {
+		MethodNode removePlayerEconomyMethod = getMethod(classNode, "removePlayerEconomy", "(Ljava/lang/String;I)V");
+
+		{
+			InsnList insns = new InsnList();
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
+			insns.add(new VarInsnNode(Opcodes.ALOAD, 1));
+			insns.add(new VarInsnNode(Opcodes.ILOAD, 2));
+			insns.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"cccr_inject/CCCR",
+				"removePlayerEconomy",
+				"(Lcom/ferullogaming/countercraft/game/IGame;Ljava/lang/String;I)V"
+			));
+			insns.add(new InsnNode(Opcodes.RETURN));
+
+			resetMethodInfo(removePlayerEconomyMethod, true);
+			removePlayerEconomyMethod.instructions.insert(insns);
 		}
 	}
 

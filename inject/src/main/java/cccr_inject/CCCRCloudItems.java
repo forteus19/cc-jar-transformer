@@ -13,19 +13,19 @@ import static com.ferullogaming.countercraft.client.cloud.item.CloudItem.*;
 
 @SuppressWarnings("unused")
 public final class CCCRCloudItems {
-	public static final CloudItem M4A4_CYREX = new CloudItemGun(108, 4000, "M4A4").setSuffix("Cyrex").setValue(CloudItemRarity.TIER3).setCollection("Vectorized").setFilterMT("rifle");
+	public static final CloudItem M4A4_CYREX = new CloudItemGun(108, 4000, "M4A4").setSuffix("Cyrex").setValue(CloudItemRarity.TIER2).setCollection("Vectorized").setFilterMT("rifle");
 	public static final CloudItem M4A4_LURKER = new CloudItemGun(109, 4000, "M4A4").setSuffix("Lurker").setValue(CloudItemRarity.TIER2).setCollection("Revolution").setFilterMT("rifle").setAuthor("njfsea");
 	public static final CloudItem M4A4_ASMO = new CloudItemGun(110, 4000, "M4A4").setSuffix("Asmo").setValue(CloudItemRarity.TIER5).setCollection("Alpha").setFilterMT("rifle");
 	public static final CloudItem M4A4_DESERT = new CloudItemGun(111, 4000, "M4A4").setSuffix("Desert").setValue(CloudItemRarity.TIER1).setCollection("Oasis").setFilterMT("rifle");
 	public static final CloudItem M4A4_DESOLATE_SPACE = new CloudItemGun(112, 4000, "M4A4").setSuffix("Desolate Space").setValue(CloudItemRarity.TIER6).setCollection("Mythic").setFilterMT("rifle");
 	public static final CloudItem M4A4_SPORT = new CloudItemGun(113, 4000, "M4A4").setSuffix("Sport").setValue(CloudItemRarity.TIER4).setCollection("Delta").setFilterMT("rifle");
 	public static final CloudItem M4A4_VERTEX = new CloudItemGun(114, 4000, "M4A4").setSuffix("Vertex").setValue(CloudItemRarity.TIER3).setCollection("Delta").setFilterMT("rifle");
-	public static final CloudItem M4A4_GOLDEN_COIL = new CloudItemGun(115, 4000, "M4A4").setSuffix("Golden Coil").setValue(CloudItemRarity.TIER4).setCollection("Biomechanic").setFilterMT("rifle");
-	public static final CloudItem M4A4_DAYBREAK = new CloudItemGun(116, 4000, "M4A4").setSuffix("Daybreak").setValue(CloudItemRarity.TIER2).setCollection("Biomechanic").setFilterMT("rifle");
+	public static final CloudItem M4A4_GOLDEN_COIL = new CloudItemGun(115, 4000, "M4A4").setSuffix("Golden Coil").setValue(CloudItemRarity.TIER4).setCollection("Biomech").setFilterMT("rifle");
+	public static final CloudItem M4A4_DAYBREAK = new CloudItemGun(116, 4000, "M4A4").setSuffix("Daybreak").setValue(CloudItemRarity.TIER2).setCollection("Biomech").setFilterMT("rifle");
 
 	public static final CloudItem AK47_VULCAN = new CloudItemGun(207, 4001, "AK47").setSuffix("Vulcan").setValue(CloudItemRarity.TIER5).setCollection("Alpha").setFilterMT("rifle");
 	public static final CloudItem AK47_FUEL = new CloudItemGun(208, 4001, "AK47").setSuffix("Fuel").setValue(CloudItemRarity.TIER2).setCollection("Beta").setFilterMT("rifle").setAuthor("Luigi_MC");
-	public static final CloudItem AK47_SHIKARI = new CloudItemGun(209, 4001, "AK47").setSuffix("Shikari").setValue(CloudItemRarity.TIER2).setCollection("Biomechanic").setFilterMT("rifle");
+	public static final CloudItem AK47_SHIKARI = new CloudItemGun(209, 4001, "AK47").setSuffix("Shikari").setValue(CloudItemRarity.TIER2).setCollection("Biomech").setFilterMT("rifle");
 	public static final CloudItem AK47_HORUS = new CloudItemGun(210, 4001, "AK47").setSuffix("Horus").setValue(CloudItemRarity.TIER6).setCollection("Oasis").setFilterMT("rifle");
 	public static final CloudItem AK47_FRONTSIDE = new CloudItemGun(211, 4001, "AK47").setSuffix("Frontside").setValue(CloudItemRarity.TIER5).setCollection("Chronical").setFilterMT("rifle");
 	public static final CloudItem AK47_IRON_BEAST = new CloudItemGun(212, 4001, "AK47").setSuffix("Iron Beast").setValue(CloudItemRarity.TIER4).setCollection("Gamma").setFilterMT("rifle");
@@ -33,7 +33,7 @@ public final class CCCRCloudItems {
 	public static final CloudItem AK47_STRIPE = new CloudItemGun(214, 4001, "AK47").setSuffix("Stripe").setValue(CloudItemRarity.TIER2).setCollection("Epsilon").setFilterMT("rifle");
 	public static final CloudItem AK47_MACAW = new CloudItemGun(215, 4001, "AK47").setSuffix("Macaw").setValue(CloudItemRarity.TIER3).setCollection("Clash").setFilterMT("rifle");
 	public static final CloudItem AK47_XRAY = new CloudItemGun(216, 4001, "AK47").setSuffix("X-Ray").setValue(CloudItemRarity.TIER3).setCollection("Revolution").setFilterMT("rifle");
-	public static final CloudItem AK47_CREEP = new CloudItemGun(217, 4001, "AK47").setSuffix("Creep").setValue(CloudItemRarity.TIER6).setCollection("Phantasmagoria").setFilterMT("rifle");
+	public static final CloudItem AK47_CREEP = new CloudItemGun(217, 4001, "AK47").setSuffix("Creep").setValue(CloudItemRarity.TIER6).setCollection("Phantom").setFilterMT("rifle");
 	public static final CloudItem AK47_BONES = new CloudItemGun(218, 4001, "AK47").setSuffix("Bones").setValue(CloudItemRarity.TIER3).setCollection("Sepulcher").setFilterMT("rifle");
 
 	public static final CloudItem FAMAS_PULSE = new CloudItemGun(304, 4002, "Famas").setSuffix("Pulse").setValue(CloudItemRarity.TIER1).setCollection("Beta").setFilterMT("rifle");
@@ -65,9 +65,9 @@ public final class CCCRCloudItems {
 	public static final CloudItem G18_HORNET = new CloudItemGun(607, 4011, "G18").setSuffix("Hornet").setValue(CloudItemRarity.TIER2).setCollection("Oasis").setFilterMT("pistol");
 	public static final CloudItem G18_VULCAN = new CloudItemGun(608, 4011, "G18").setSuffix("Vulcan").setValue(CloudItemRarity.TIER3).setCollection("Vectorized").setFilterMT("pistol");
 	public static final CloudItem G18_CANDY_APPLE = new CloudItemGun(609, 4011, "G18").setSuffix("Candy Apple").setValue(CloudItemRarity.TIER1).setCollection("Vectorized").setFilterMT("pistol");
-	public static final CloudItem G18_MOONRISE = new CloudItemGun(610, 4011, "G18").setSuffix("Moonrise").setValue(CloudItemRarity.TIER3).setCollection("Biomechanic").setFilterMT("pistol");
-	public static final CloudItem G18_CIRCUIT = new CloudItemGun(611, 4011, "G18").setSuffix("Circuit").setValue(CloudItemRarity.TIER1).setCollection("Biomechanic").setFilterMT("pistol");
-	public static final CloudItem G18_GHOUL = new CloudItemGun(612, 4011, "G18").setSuffix("Ghoul").setValue(CloudItemRarity.TIER1).setCollection("Phantasmagoria").setFilterMT("pistol");
+	public static final CloudItem G18_MOONRISE = new CloudItemGun(610, 4011, "G18").setSuffix("Moonrise").setValue(CloudItemRarity.TIER3).setCollection("Biomech").setFilterMT("pistol");
+	public static final CloudItem G18_CIRCUIT = new CloudItemGun(611, 4011, "G18").setSuffix("Circuit").setValue(CloudItemRarity.TIER1).setCollection("Biomech").setFilterMT("pistol");
+	public static final CloudItem G18_GHOUL = new CloudItemGun(612, 4011, "G18").setSuffix("Ghoul").setValue(CloudItemRarity.TIER1).setCollection("Phantom").setFilterMT("pistol");
 	public static final CloudItem G18_GHOST = new CloudItemGun(613, 4011, "G18").setSuffix("Ghost").setValue(CloudItemRarity.TIER1).setCollection("Sepulcher").setFilterMT("pistol");
 
 	public static final CloudItem TEC9_TORQUE = new CloudItemGun(654, 4014, "TEC9").setSuffix("Torque").setValue(CloudItemRarity.TIER3).setCollection("Mythic").setFilterMT("pistol");
@@ -86,9 +86,9 @@ public final class CCCRCloudItems {
 	public static final CloudItem DEAGLE_COBALT = new CloudItemGun(712, 4012, "Deagle").setSuffix("Cobalt").setValue(CloudItemRarity.TIER2).setCollection("Clash").setFilterMT("pistol");
 	public static final CloudItem DEAGLE_GOLD = new CloudItemGun(713, 4012, "Deagle").setSuffix("Gold").setValue(CloudItemRarity.TIER3).setCollection("Elemental").setFilterMT("pistol");
 	public static final CloudItem DEAGLE_DEVI = new CloudItemGun(714, 4012, "Deagle").setSuffix("Devi").setValue(CloudItemRarity.TIER1).setCollection("Revolution").setFilterMT("pistol");
-	public static final CloudItem DEAGLE_MECHAINDUSTRIES = new CloudItemGun(715, 4012, "Deagle").setSuffix("Mechaindustries").setValue(CloudItemRarity.TIER3).setCollection("Biomechanic").setFilterMT("pistol");
+	public static final CloudItem DEAGLE_MECHAINDUSTRIES = new CloudItemGun(715, 4012, "Deagle").setSuffix("Mechaindustries").setValue(CloudItemRarity.TIER3).setCollection("Biomech").setFilterMT("pistol");
 
-	public static final CloudItem P250_ARCTIC = new CloudItemGun(755, 4013, "P250").setSuffix("Arctic").setValue(CloudItemRarity.TIER1).setCollection("Biomechanic").setFilterMT("pistol");
+	public static final CloudItem P250_ARCTIC = new CloudItemGun(755, 4013, "P250").setSuffix("Arctic").setValue(CloudItemRarity.TIER1).setCollection("Biomech").setFilterMT("pistol");
 	public static final CloudItem P250_DUNE = new CloudItemGun(756, 4013, "P250").setSuffix("Dune").setValue(CloudItemRarity.TIER1).setCollection("Oasis").setFilterMT("pistol");
 	public static final CloudItem P250_NIPPON = new CloudItemGun(757, 4013, "P250").setSuffix("Nippon").setValue(CloudItemRarity.TIER3).setCollection("Epsilon").setFilterMT("pistol");
 	public static final CloudItem P250_HAUNTED = new CloudItemGun(758, 4013, "P250").setSuffix("Haunted").setValue(CloudItemRarity.TIER3).setCollection("Sepulcher").setFilterMT("pistol");
@@ -97,7 +97,7 @@ public final class CCCRCloudItems {
 	public static final CloudItem P90_ARROW = new CloudItemGun(804, 4020, "P90").setSuffix("Arrow").setValue(CloudItemRarity.TIER2).setCollection("Alpha").setFilterMT("smg");
 	public static final CloudItem P90_MEDICINE = new CloudItemGun(805, 4020, "P90").setSuffix("Medicine").setValue(CloudItemRarity.TIER4).setCollection("Delta").setFilterMT("smg");
 	public static final CloudItem P90_MODULE = new CloudItemGun(806, 4020, "P90").setSuffix("Module").setValue(CloudItemRarity.TIER2).setCollection("Revolution").setFilterMT("smg");
-	public static final CloudItem P90_GRIM = new CloudItemGun(807, 4020, "P90").setSuffix("Grim").setValue(CloudItemRarity.TIER5).setCollection("Phantasmagoria").setFilterMT("smg");
+	public static final CloudItem P90_GRIM = new CloudItemGun(807, 4020, "P90").setSuffix("Grim").setValue(CloudItemRarity.TIER5).setCollection("Phantom").setFilterMT("smg");
 
 	public static final CloudItem MAC10_VIOLET = new CloudItemGun(903, 4021, "MAC10").setSuffix("Violet").setValue(CloudItemRarity.TIER1).setCollection("Revolution").setFilterMT("smg");
 	public static final CloudItem MAC10_CHICKEN = new CloudItemGun(904, 4021, "MAC10").setSuffix("Chicken").setValue(CloudItemRarity.TIER5).setCollection("Oasis").setFilterMT("smg").setAuthor("batson83");
@@ -106,24 +106,24 @@ public final class CCCRCloudItems {
 	public static final CloudItem MAC10_NEON = new CloudItemGun(907, 4021, "MAC10").setSuffix("Neon").setValue(CloudItemRarity.TIER5).setCollection("Clash").setFilterMT("smg");
 	public static final CloudItem MAC10_FADE = new CloudItemGun(908, 4021, "MAC10").setSuffix("Fade").setValue(CloudItemRarity.TIER4).setCollection("Elemental").setFilterMT("smg");
 	public static final CloudItem MAC10_ASMO = new CloudItemGun(909, 4021, "MAC10").setSuffix("Asmo").setValue(CloudItemRarity.TIER4).setCollection("Vectorized").setFilterMT("smg");
-	public static final CloudItem MAC10_SPIDER = new CloudItemGun(910, 4021, "MAC10").setSuffix("Spider").setValue(CloudItemRarity.TIER4).setCollection("Phantasmagoria").setFilterMT("smg");
+	public static final CloudItem MAC10_SPIDER = new CloudItemGun(910, 4021, "MAC10").setSuffix("Spider").setValue(CloudItemRarity.TIER4).setCollection("Phantom").setFilterMT("smg");
 	public static final CloudItem MAC10_SWARM = new CloudItemGun(911, 4021, "MAC10").setSuffix("Swarm").setValue(CloudItemRarity.TIER2).setCollection("Sepulcher").setFilterMT("smg");
 
 	public static final CloudItem VECTOR_ARCTIC = new CloudItemGun(1003, 4022, "Vector").setSuffix("Arctic").setValue(CloudItemRarity.TIER2).setCollection("Vectorized").setFilterMT("smg");
 	public static final CloudItem VECTOR_SUNNY = new CloudItemGun(1004, 4022, "Vector").setSuffix("Sunny").setValue(CloudItemRarity.TIER1).setCollection("Elemental").setFilterMT("smg").setAuthor("Hisse");
 	public static final CloudItem VECTOR_SLIME = new CloudItemGun(1005, 4022, "Vector").setSuffix("Slime").setValue(CloudItemRarity.TIER2).setCollection("Mythic").setFilterMT("smg");
 	public static final CloudItem VECTOR_EXTINCT = new CloudItemGun(1006, 4022, "Vector").setSuffix("Extinct").setValue(CloudItemRarity.TIER5).setCollection("Vectorized").setFilterMT("smg");
-	public static final CloudItem VECTOR_ORTHUS = new CloudItemGun(1007, 4022, "Vector").setSuffix("Orthus").setValue(CloudItemRarity.TIER3).setCollection("Phantasmagoria").setFilterMT("smg");
+	public static final CloudItem VECTOR_ORTHUS = new CloudItemGun(1007, 4022, "Vector").setSuffix("Orthus").setValue(CloudItemRarity.TIER3).setCollection("Phantom").setFilterMT("smg");
 
 	public static final CloudItem AWP_LIGHTNING = new CloudItemGun(1107, 4030, "AWP").setSuffix("Lightning").setValue(CloudItemRarity.TIER5).setCollection("Elemental").setFilterMT("sniper");
 	public static final CloudItem AWP_BEAST = new CloudItemGun(1108, 4030, "AWP").setSuffix("Beast").setValue(CloudItemRarity.TIER4).setCollection("Mythic").setFilterMT("sniper").setAuthor("njfsea");
 	public static final CloudItem AWP_MECHA_DRAGON = new CloudItemGun(1109, 4030, "AWP").setSuffix("Mecha Dragon").setValue(CloudItemRarity.TIER6).setCollection("Alpha").setFilterMT("sniper").setAuthor("ABrokenHeart");
 	public static final CloudItem AWP_ELECTRIC_ARCHIVE = new CloudItemGun(1110, 4030, "AWP").setSuffix("Electric Archive").setValue(CloudItemRarity.TIER3).setCollection("Gamma").setFilterMT("sniper");
-	public static final CloudItem AWP_OCEANDEPTH = new CloudItemGun(1111, 4030, "AWP").setSuffix("OceanDepth").setValue(CloudItemRarity.TIER5).setCollection("Delta").setFilterMT("sniper");
+	public static final CloudItem AWP_OCEANDEPTH = new CloudItemGun(1111, 4030, "AWP").setSuffix("Ocean-Depth").setValue(CloudItemRarity.TIER5).setCollection("Delta").setFilterMT("sniper");
 	public static final CloudItem AWP_AKARI = new CloudItemGun(1112, 4030, "AWP").setSuffix("Akari").setValue(CloudItemRarity.TIER3).setCollection("Delta").setFilterMT("sniper");
 	public static final CloudItem AWP_CROWD = new CloudItemGun(1113, 4030, "AWP").setSuffix("Crowd").setValue(CloudItemRarity.TIER4).setCollection("Epsilon").setFilterMT("sniper");
 	public static final CloudItem AWP_FOREST = new CloudItemGun(1114, 4030, "AWP").setSuffix("Forest").setValue(CloudItemRarity.TIER1).setCollection("Vectorized").setFilterMT("sniper");
-	public static final CloudItem AWP_STEAMPUNK = new CloudItemGun(1115, 4030, "AWP").setSuffix("Steampunk").setValue(CloudItemRarity.TIER4).setCollection("Biomechanic").setFilterMT("sniper");
+	public static final CloudItem AWP_STEAMPUNK = new CloudItemGun(1115, 4030, "AWP").setSuffix("Steampunk").setValue(CloudItemRarity.TIER4).setCollection("Biomech").setFilterMT("sniper");
 	public static final CloudItem AWP_PUMPKIN = new CloudItemGun(1116, 4030, "AWP").setSuffix("Pumpkin").setValue(CloudItemRarity.TIER4).setCollection("Sepulcher").setFilterMT("sniper");
 
 	public static final CloudItem DRAGUNOV_JUNGLE = new CloudItemGun(1203, 4031, "Dragunov").setSuffix("Jungle").setValue(CloudItemRarity.TIER1).setCollection("Alpha").setFilterMT("sniper");
@@ -139,7 +139,7 @@ public final class CCCRCloudItems {
 
 	public static final CloudItem NOVA_JUNK = new CloudItemGun(1603, 4040, "Nova").setSuffix("Junk").setValue(CloudItemRarity.TIER1).setCollection("Beta").setFilterMT("heavy");
 	public static final CloudItem NOVA_INFUSED = new CloudItemGun(1604, 4040, "Nova").setSuffix("Infused").setValue(CloudItemRarity.TIER3).setCollection("Clash").setFilterMT("heavy");
-	public static final CloudItem NOVA_GHOST = new CloudItemGun(1605, 4040, "Nova").setSuffix("Ghost").setValue(CloudItemRarity.TIER3).setCollection("Phantasmagoria").setFilterMT("heavy");
+	public static final CloudItem NOVA_GHOST = new CloudItemGun(1605, 4040, "Nova").setSuffix("Ghost").setValue(CloudItemRarity.TIER3).setCollection("Phantom").setFilterMT("heavy");
 
 	public static final CloudItem SAWEDOFF_JUNK = new CloudItemGun(1654, 4041, "Sawed-Off").setSuffix("Junk").setValue(CloudItemRarity.TIER1).setCollection("Mythic").setFilterMT("heavy");
 	public static final CloudItem SAWEDOFF_SOUNDWAVE = new CloudItemGun(1655, 4041, "Sawed-Off").setSuffix("Soundwave").setValue(CloudItemRarity.TIER2).setCollection("Gamma").setFilterMT("heavy");
@@ -152,13 +152,13 @@ public final class CCCRCloudItems {
 	public static final CloudItem M249_HEATSYNC = new CloudItemGun(1753, 4043, "M249").setSuffix("Heatsync").setValue(CloudItemRarity.TIER1).setCollection("Alpha").setFilterMT("heavy");
 	public static final CloudItem M249_LOUDMOUTH = new CloudItemGun(1754, 4043, "M249").setSuffix("Loudmouth").setValue(CloudItemRarity.TIER2).setCollection("Epsilon").setFilterMT("heavy");
 	public static final CloudItem M249_TACTICAL_FOREST = new CloudItemGun(1755, 4043, "M249").setSuffix("Tactical Forest").setValue(CloudItemRarity.TIER3).setCollection("Gamma").setFilterMT("heavy");
-	public static final CloudItem M249_COGSYSTEMSCHEME = new CloudItemGun(1756, 4043, "M249").setSuffix("CogSystemScheme").setValue(CloudItemRarity.TIER3).setCollection("Vectorized").setFilterMT("heavy");
+	public static final CloudItem M249_COG_SYSTEM_SCHEME = new CloudItemGun(1756, 4043, "M249").setSuffix("Cog System Scheme").setValue(CloudItemRarity.TIER3).setCollection("Vectorized").setFilterMT("heavy");
 
 	public static final CloudItem CZ75_GREEN = new CloudItemGun(1802, 4015, "CZ75").setSuffix("Green").setValue(CloudItemRarity.TIER1).setCollection("Beta").setFilterMT("pistol");
 	public static final CloudItem CZ75_TIGER = new CloudItemGun(1803, 4015, "CZ75").setSuffix("Tiger").setValue(CloudItemRarity.TIER3).setCollection("Oasis").setFilterMT("pistol");
 	public static final CloudItem CZ75_ASMO = new CloudItemGun(1804, 4015, "CZ75").setSuffix("Asmo").setValue(CloudItemRarity.TIER4).setCollection("Revolution").setFilterMT("pistol");
 	public static final CloudItem CZ75_NEONPAW = new CloudItemGun(1805, 4015, "CZ75").setSuffix("Neonpaw").setValue(CloudItemRarity.TIER3).setCollection("Vectorized").setFilterMT("pistol");
-	public static final CloudItem CZ75_GHOST = new CloudItemGun(1806, 4015, "CZ75").setSuffix("Ghost").setValue(CloudItemRarity.TIER2).setCollection("Phantasmagoria").setFilterMT("pistol");
+	public static final CloudItem CZ75_GHOST = new CloudItemGun(1806, 4015, "CZ75").setSuffix("Ghost").setValue(CloudItemRarity.TIER2).setCollection("Phantom").setFilterMT("pistol");
 	public static final CloudItem CZ75_AFTERLIFE = new CloudItemGun(1807, 4015, "CZ75").setSuffix("Afterlife").setValue(CloudItemRarity.TIER2).setCollection("Sepulcher").setFilterMT("pistol");
 
 	public static final CloudItem UMP45_XERYC = new CloudItemGun(1853, 4023, "UMP-45").setSuffix("Xeryc").setValue(CloudItemRarity.TIER2).setCollection("Beta").setFilterMT("smg");
@@ -422,7 +422,7 @@ public final class CCCRCloudItems {
 		.addContent(AK47_BLOODSPORT, 0)
 		.addContent(G18_VULCAN, 0)
 		.addContent(CZ75_NEONPAW, 0)
-		.addContent(M249_COGSYSTEMSCHEME, 0)
+		.addContent(M249_COG_SYSTEM_SCHEME, 0)
 		.addContent(M4A4_CYREX, 0)
 		.addContent(VECTOR_ARCTIC, 0)
 		.addContent(SCAR20_SHOCK, 0)
@@ -503,8 +503,8 @@ public final class CCCRCloudItems {
 		M4A4_EVILDAIMYO.setValue(CloudItemRarity.TIER5).setCollection("Gamma");
 		M4A4_CAKEY.setValue(CloudItemRarity.TIER3).setCollection("Beta");
 		M4A4_HOWL.setValue(CloudItemRarity.TIER6).setCollection("Elemental");
-		M4A4_NERFED.setValue(CloudItemRarity.TIER2).setCollection("Clash");
-		M4A4_PUMPKIN.setValue(CloudItemRarity.TIER4).setCollection("Phantasmagoria");
+		M4A4_NERFED.setValue(CloudItemRarity.TIER3).setCollection("Clash");
+		M4A4_PUMPKIN.setValue(CloudItemRarity.TIER4).setCollection("Phantom");
 		M4A4_PATRIOT.setValue(CloudItemRarity.TIER3).setCollection("Cheats");
 		AK47_PROPAGANDA.setValue(CloudItemRarity.TIER5).setCollection("Clash");
 		AK47_ASMO.setValue(CloudItemRarity.TIER4).setCollection("Beta");
@@ -512,42 +512,42 @@ public final class CCCRCloudItems {
 		AK47_HAUNTED.setValue(CloudItemRarity.TIER5).setCollection("Sepulcher");
 		AK47_BLOODSPORT.setValue(CloudItemRarity.TIER4).setCollection("Vectorized");
 		AK47_FOX.setValue(CloudItemRarity.TIER3).setCollection("Epsilon");
-		FAMAS_AKARI.setValue(CloudItemRarity.TIER2).setCollection("Biomechanic");
+		FAMAS_AKARI.setValue(CloudItemRarity.TIER2).setCollection("Biomech");
 		FAMAS_WARHAWK.setValue(CloudItemRarity.TIER5).setCollection("Revolution");
-		FAMAS_SPOOKY.setValue(CloudItemRarity.TIER2).setCollection("Phantasmagoria");
+		FAMAS_SPOOKY.setValue(CloudItemRarity.TIER2).setCollection("Phantom");
 		FNFAL_VAPORWAVE.setValue(CloudItemRarity.TIER4).setCollection("Oasis");
 		FNFAL_ASMO.setValue(CloudItemRarity.TIER4).setCollection("Mythic");
 		M1911_DRAGON.setValue(CloudItemRarity.TIER3).setCollection("Alpha");
-		M1911_TUXEDO.setValue(CloudItemRarity.TIER1).setCollection("Phantasmagoria");
+		M1911_TUXEDO.setValue(CloudItemRarity.TIER1).setCollection("Phantom");
 		G18_RACE.setValue(CloudItemRarity.TIER2).setCollection("Epsilon");
 		G18_HIGHROLLER.setValue(CloudItemRarity.TIER6).setCollection("Beta");
 		G18_DEEP_BLUE.setValue(CloudItemRarity.TIER1).setCollection("Elemental");
 		TEC9_QUAKORONIC.setValue(CloudItemRarity.TIER1).setCollection("Chronical");
-		TEC9_ECO.setValue(CloudItemRarity.TIER3).setCollection("Biomechanic");
+		TEC9_ECO.setValue(CloudItemRarity.TIER3).setCollection("Biomech");
 		TEC9_AQUARIUM.setValue(CloudItemRarity.TIER3).setCollection("Revolution");
 		DEAGLE_NIGHTRAZER.setValue(CloudItemRarity.TIER2).setCollection("Chronical");
 		DEAGLE_DEADHORIZON.setValue(CloudItemRarity.TIER3).setCollection("Chronical");
 		DEAGLE_GRIN.setValue(CloudItemRarity.TIER3).setCollection("Sepulcher");
 		P250_IRRADIATED.setValue(CloudItemRarity.TIER2).setCollection("Delta");
-		P250_SEEYALATER.setValue(CloudItemRarity.TIER5).setCollection("Biomechanic");
+		P250_SEEYALATER.setValue(CloudItemRarity.TIER5).setCollection("Biomech");
 		P250_CITY.setValue(CloudItemRarity.TIER3).setCollection("Revolution");
 		P250_BEAST.setValue(CloudItemRarity.TIER4).setCollection("Chronical");
 		P90_RUST.setValue(CloudItemRarity.TIER1).setCollection("Elemental");
 		P90_KRAKEN.setValue(CloudItemRarity.TIER3).setCollection("Mythic");
 		MAC10_RACE.setValue(CloudItemRarity.TIER2).setCollection("Clash");
-		MAC10_PUMPKIN.setValue(CloudItemRarity.TIER2).setCollection("Phantasmagoria");
-		VECTOR_CIRCUIT.setValue(CloudItemRarity.TIER1).setCollection("Biomechanic");
+		MAC10_PUMPKIN.setValue(CloudItemRarity.TIER2).setCollection("Phantom");
+		VECTOR_CIRCUIT.setValue(CloudItemRarity.TIER1).setCollection("Biomech");
 		VECTOR_BLOODYEQUATION.setValue(CloudItemRarity.TIER2).setCollection("Gamma");
 		AWP_DRAGON.setValue(CloudItemRarity.TIER5).setCollection("Beta");
 		AWP_MANOWAR.setValue(CloudItemRarity.TIER3).setCollection("Oasis");
 		AWP_ASMO.setValue(CloudItemRarity.TIER4).setCollection("Clash");
-		AWP_BONES.setValue(CloudItemRarity.TIER3).setCollection("Phantasmagoria");
+		AWP_BONES.setValue(CloudItemRarity.TIER3).setCollection("Phantom");
 		AWP_REDLINE.setValue(CloudItemRarity.TIER2).setCollection("Beta");
 		AWP_BOOM.setValue(CloudItemRarity.TIER3).setCollection("Chronical");
 		DRAGUNOV_SKY.setValue(CloudItemRarity.TIER2).setCollection("Oasis");
 		DRAGUNOV_STEAMPUNK.setValue(CloudItemRarity.TIER2).setCollection("Mythic");
 		SCAR20_CYREX.setValue(CloudItemRarity.TIER2).setCollection("Alpha");
-		SCAR20_UNICORN.setValue(CloudItemRarity.TIER5).setCollection("Chronical");
+		SCAR20_UNICORN.setValue(CloudItemRarity.TIER6).setCollection("Chronical");
 		NOVA_OXIDEBLAZE.setValue(CloudItemRarity.TIER2).setCollection("Elemental");
 		NOVA_HYPER_BEAST.setValue(CloudItemRarity.TIER5).setCollection("Epsilon");
 		SAWEDOFF_WASTELANDPRINCESS.setValue(CloudItemRarity.TIER4).setCollection("Revolution");
@@ -556,7 +556,7 @@ public final class CCCRCloudItems {
 		MAG7_ROYALFIRE.setValue(CloudItemRarity.TIER2).setCollection("Oasis");
 		MAG7_VAMPIRE.setValue(CloudItemRarity.TIER4).setCollection("Sepulcher");
 		M249_NEON.setValue(CloudItemRarity.TIER2).setCollection("Delta");
-		M249_GHOST.setValue(CloudItemRarity.TIER1).setCollection("Phantasmagoria");
+		M249_GHOST.setValue(CloudItemRarity.TIER1).setCollection("Phantom");
 		CZ75_PHANTOM.setValue(CloudItemRarity.TIER4).setCollection("Cheats");
 		R8_FADE.setValue(CloudItemRarity.TIER4).setCollection("Clash");
 		R8_GOLD.setValue(CloudItemRarity.TIER3).setCollection("Oasis");

@@ -69,7 +69,7 @@ public final class CCCRClientProxy {
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseElemental.field_77779_bT, new RenderCase("case_elemental"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseRevolution.field_77779_bT, new RenderCase("case_revolution"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseVectorized.field_77779_bT, new RenderCase("case_vectorized"));
-		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseBiomechanic.field_77779_bT, new RenderCase("case_biomechanic"));
+		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseBiomechanic.field_77779_bT, new RenderCase("case_biomechanical"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.casePhantasmagoria.field_77779_bT, new RenderCase("case_phantasmagoria"));
 		MinecraftForgeClient.registerItemRenderer(CCCRItems.caseSepulcher.field_77779_bT, new RenderCase("case_sepulcher"));
 
