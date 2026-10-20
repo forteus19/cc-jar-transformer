@@ -40,7 +40,7 @@ public final class ClassTransformers {
 		Map.entry("com/ferullogaming/countercraft/server/ServerCloudManager", ClassTransformers::transformServerCloudManager)
 	);
 
-	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC7";
+	private static final String CONNECTION_VERSION = "1.0.0-ALPHA-RC8";
 
 	private ClassTransformers() {
 	}

@@ -80,13 +80,11 @@ public final class CCCR {
 				);
 			case UPDATES:
 				return Arrays.asList(
-					"1.0.0-ALPHA-RC7 Changelog:",
-					" - Added updates text",
-					" - Readded classic AWP Dragon texture",
-					" - Fixed incorrect case banner text",
-					" - Fixed money in casual and competitive going below $0",
-					" - Fixed Dragunov Elite and CZ75 Ghost having the wrong texture",
-					" - Fixed M4A4 Nerfed being iron instead of lapis"
+					"1.0.0-ALPHA-RC8 Changelog:",
+					" - Implemented item naming",
+					" - Fixed not being able to close trades",
+					" - Fixed ingame knife names",
+					" - Fixed butterfly knife inspect animation"
 				);
 			default:
 				return Collections.emptyList();
